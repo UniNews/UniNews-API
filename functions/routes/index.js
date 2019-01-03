@@ -28,4 +28,24 @@ router.get("/", function(req, res, next) {
     });
 });
 
+/*Get by specific id*/
+router.get("/getById", function(req, res, next) {
+  firebaseHelper.firestore
+    .backup(firestore, newsCollection)
+    .then(news => {
+      let id = req.id
+      for(var n in news){
+      if (id===n.id) {
+        successResponse(res, n);
+        return n
+      }
+    }
+    notFoundErrorResponse(res, n);
+    return null
+  })
+    .catch(err => {
+      timeOutErrorResponse(res, err);
+    });
+});
+
 module.exports = router;
