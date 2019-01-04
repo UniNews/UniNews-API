@@ -3,7 +3,7 @@ var router = express.Router();
 
 const { firebaseHelper, firestore } = require("./../config/admin.js");
 
-const newsCollection = "news";
+const newsCollection = firestore.collection('news');
 
 const {
   notFoundErrorResponse,
@@ -29,21 +29,32 @@ router.get("/", function(req, res, next) {
 });
 
 /*Get by specific id*/
-router.get("/getById", function(req, res, next) {
+router.get("/:id", function(req, res, next) {
   firebaseHelper.firestore
     .backup(firestore, newsCollection)
     .then(news => {
-      let id = req.id
-      for(var n in news){
-      if (id===n.id) {
-        successResponse(res, n);
-        return n
+      console.log('varit')
+      let a = newsCollection.where('id','==',id).get()
+      if(a.exists){
+        successResponse(res,a)
+      }else{
+        res.status(200).send("KUY");
+        notFoundErrorResponse(res,a)
       }
-    }
-    notFoundErrorResponse(res, n);
-    return null
-  })
+        // snap=>{
+        //   if(!snap.empty){
+        //     successResponse(res,snap.data());
+        //     return snap.data()
+        //   }
+        //   else{
+        //     res.status(200).send("KUY");
+        //     notFoundErrorResponse(res, n);
+        //     return null
+        //   }
+        }
+      )
     .catch(err => {
+      console.log('warat')
       timeOutErrorResponse(res, err);
     });
 });
