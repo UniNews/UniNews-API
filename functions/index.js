@@ -1,16 +1,19 @@
-var express = require("express");
+var express = require('express')
+const bodyParser = require('body-parser')
 
-var indexRouter = require("./routes/index");
-const functions = require("firebase-functions");
+var indexRouter = require('./routes/index')
+const functions = require('firebase-functions')
 
-var app = express();
+var app = express()
 // Create "main" function to host all other top-level functions
-var main = express();
-main.use("/api/", app);
+var main = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+
+main.use('/api/', app)
 
 // Expose Express API as a single Cloud Function:
-exports.api = functions.https.onRequest(main);
+exports.api = functions.https.onRequest(main)
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use("/news", indexRouter);
+app.use('/news', indexRouter)
