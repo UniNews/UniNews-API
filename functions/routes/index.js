@@ -65,18 +65,41 @@ router.post('/:id/comments', function (req, res, next) {
     let msg = req.body.msg
     let newsId = req.params.id
     var res_data = {}
-    var getDoc = newsCollection
-      .doc(newsId)
-      .collection('comments')
-      .get()
     authService
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
         res_data['id'] = decodedToken.id
         res_data['name'] = decodedToken.name
         res_data['msg'] = msg
-        // getDoc.push(res_data)
+        newsCollection
+        .doc(newsId)
+        .collection('comments')
+        .add(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
+      })
+      .catch(function (error) {
+        notFoundErrorResponse(res, 'Token is either expired or not valid.')
+      })
+  })
+})
+
+router.post('/:id/rating', function (req, res, next) {
+  cors(req, res, () => {
+    let user_token = req.body.user_token
+    let rating = req.body.rating
+    let newsId = req.params.id
+    var res_data = {}
+    authService
+      .verifyIdToken(user_token)
+      .then(function (decodedToken) {
+        res_data['id'] = decodedToken.id
+        res_data['name'] = decodedToken.name
+        res_data['rating'] = rating
+        newsCollection
+        .doc(newsId)
+        .collection('rating')
+        .add(res_data)
+        successResponse(res, 'Post rating successfully.', res_data)
       })
       .catch(function (error) {
         notFoundErrorResponse(res, 'Token is either expired or not valid.')
