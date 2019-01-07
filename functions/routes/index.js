@@ -13,21 +13,20 @@ const {
 
 /* GET all news. */
 router.get('/', function (req, res, next) {
-  res_data = {}
-  res_data['news'] = []
-  let getNews = newsCollection
+  var res_data = []
+  var news = newsCollection
     .orderBy('timeStamp', 'desc')
     .get()
     .then(snap => {
       snap.forEach(doc => {
         let eachNews = doc.data()
         eachNews['id'] = doc.id
-        res_data['news'].push(eachNews)
+        res_data.push(eachNews)
       })
       successResponse(res, res_data)
     })
     .catch(err => {
-      timeOutErrorResponse(res, res_data)
+      timeOutErrorResponse(res, err)
     })
 })
 
@@ -38,16 +37,14 @@ router.get('/:id', function (req, res, next) {
     .doc(id)
     .get()
     .then(snap => {
-      res_data = {}
       if (snap.exists) {
-        res_data['news'] = snap.data()
-        successResponse(res, res_data)
+        successResponse(res, snap.data())
       } else {
-        notFoundErrorResponse(res, res_data)
+        notFoundErrorResponse(res)
       }
     })
     .catch(err => {
-      timeOutErrorResponse(res, res_data)
+      timeOutErrorResponse(res, err)
     })
 })
 
