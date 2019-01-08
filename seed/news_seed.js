@@ -12,8 +12,11 @@ const news = [
       'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/1526768_776164669120611_2894389809615234852_n.jpg?_nc_cat=109&_nc_ht=scontent.fbkk22-2.fna&oh=a503cedd875338bf1c0f37143d58dd00&oe=5C9099AC'
     ],
     timeStamp: null,
-    rating: '5.0',
-    comments: [{ userid: '1', name: 'Mond', msg: 'Kuy' }]
+    rating: [
+      { user_id: '1', name: 'Jamie', rating: 4 },
+      { user_id: '2', name: 'Mond', rating: 1 }
+    ],
+    comments: [{ user_id: '1', name: 'Mond', msg: 'Kuy' }]
   },
   {
     title: 'Find FWD in KU.',
@@ -24,8 +27,11 @@ const news = [
       'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.0-9/13015550_476503695875157_9158396802062028871_n.jpg?_nc_cat=101&_nc_ht=scontent.fbkk22-1.fna&oh=bebd43bd0bc116b8f36bfd4569f51c10&oe=5CCC7315'
     ],
     timeStamp: null,
-    rating: '3.7',
-    comments: [{ userid: '2', name: 'Jamie', msg: 'Hee' }]
+    rating: [
+      { user_id: '2', name: 'Jamie', rating: 3.5 },
+      { user_id: '1', name: 'Mond', rating: 5 }
+    ],
+    comments: [{ user_id: '2', name: 'Jamie', msg: 'Hee' }]
   }
 ]
 
