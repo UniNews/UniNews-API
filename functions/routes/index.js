@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-const { firestore, authService, cors } = require('./../config/admin.js')
+const { firestore, authService, cors ,admin } = require('./../config/admin.js')
 
 const newsCollection = firestore.collection('news')
 
@@ -68,13 +68,15 @@ router.post('/:id/comments', function (req, res, next) {
     authService
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
-        res_data['id'] = decodedToken.id
-        res_data['name'] = decodedToken.name
+        res_data['id'] = "sss"
+        res_data['name'] = "ss"
         res_data['msg'] = msg
         newsCollection
-        .doc(newsId)
-        .collection('comments')
-        .add(res_data)
+        .doc(newsId).update(
+          {
+            'comments': admin.firestore.FieldValue.arrayUnion(res_data)
+          }
+        )
         successResponse(res, 'Post comment successfully.', res_data)
       })
       .catch(function (error) {

@@ -11,6 +11,7 @@ firestore.settings({ timestampsInSnapshots: true })
 
 module.exports = {
   firestore,
+  admin,
   authService,
   cors
 }
