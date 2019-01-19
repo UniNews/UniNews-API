@@ -92,24 +92,34 @@ router.post('/:id/rating', function (req, res, next) {
     let rating = req.body.rating
     let newsId = req.params.id
     var res_data = {}
-    authService
-    .verifyIdToken(user_token)
-    .then(function (decodedToken) {
-      res_data['user_id'] = decodedToken.user_id
-      res_data['name'] = decodedToken.name
-      res_data['rating'] = rating
-      newsCollection
-      .doc(newsId).update(
-        {
-          'rating': admin.firestore.FieldValue.arrayUnion(res_data)
-        }
-      )
-      successResponse(res, 'Post rating successfully.', res_data)
+     authService
+     .verifyIdToken(user_token)
+     .then(function (decodedToken) {
+       res_data['user_id'] = decodedToken.user_id
+       res_data['name'] = decodedToken.name
+       var query = newsCollection.doc(newsId).get()
+       .then(doc => {
+           if (!doc.exists) {
+              console.log("No such document!")
+           } else {
+               res_data['rating']= (rating+doc.data().rating.length*doc.data().rating[0].rating)/(doc.data().rating.length+1)
+               newsCollection
+               .doc(newsId).update(
+                 {
+                   'rating': admin.firestore.FieldValue.arrayUnion(res_data)
+                 }
+               )
+               successResponse(res, 'Post rating successfully.', res_data)
+           }
+       })
+       .catch(err => {
+           console.log('Error getting documents', err);
+       }); 
       return decodedToken.user_id
-    })
-      .catch(function (error) {
-        notFoundErrorResponse(res, 'Token is either expired or not valid.')
-      })
+     })
+       .catch(function (error) {
+         notFoundErrorResponse(res, 'Token is either expired or not valid.')
+       })
   })
 })
 
