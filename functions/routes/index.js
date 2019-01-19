@@ -102,7 +102,12 @@ router.post('/:id/rating', function (req, res, next) {
            if (!doc.exists) {
               console.log("No such document!")
            } else {
-               res_data['rating']= (rating+doc.data().rating.length*doc.data().rating[doc.data().rating.length-1].rating)/(doc.data().rating.length+1)
+              if(doc.data().rating.length>0){
+                res_data['rating']= (rating+doc.data().rating.length*doc.data().rating[doc.data().rating.length-1].rating)/(doc.data().rating.length+1)
+              }
+              else{
+                res_data['rating']=rating
+              }
                newsCollection
                .doc(newsId).update(
                  {
