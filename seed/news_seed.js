@@ -36,8 +36,8 @@ const news = [
 ]
 
 for (var i = 0; i < news.length; i++) {
-  var timeStamp = admin.firestore.FieldValue.serverTimestamp()
-  news[i].timeStamp = timeStamp // store a timestamp as a field in the documents.
+  var timeStamp = new Date()
+  news[i].timeStamp = ''+timeStamp.getDay()+'/'+(timeStamp.getMonth()+1)+'/'+timeStamp.getFullYear()+'  time '+timeStamp.getHours()+':'+timeStamp.getMinutes() // store a timestamp as a field in the documents.
   newsCollection
     .add(news[i])
     .then(function (docRef) {
