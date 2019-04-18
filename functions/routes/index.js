@@ -32,6 +32,44 @@ router.get('/', function (req, res, next) {
   })
 })
 
+router.get('/learn', function (req, res, next) {
+  cors(req, res, () => {
+    var res_data = []
+    var news = newsCollection
+      .child('learn')
+      .orderByChild('timeStamp').on("value", function (snap)
+       {
+        snap.forEach(doc => {
+          console.log(doc)
+          console.log('paul')
+          let eachNews = doc.val()
+          eachNews['id'] = doc.id
+          res_data.push(eachNews)
+        })
+        successResponse(res, 'Get all news successfully.', res_data)
+      })
+  })
+})
+
+router.get('/social', function (req, res, next) {
+  cors(req, res, () => {
+    var res_data = []
+    var news = newsCollection
+      .child('social')
+      .orderByChild('timeStamp').on("value", function (snap)
+       {
+        snap.forEach(doc => {
+          console.log(doc)
+          console.log('paul')
+          let eachNews = doc.val()
+          eachNews['id'] = doc.id
+          res_data.push(eachNews)
+        })
+        successResponse(res, 'Get all news successfully.', res_data)
+      })
+  })
+})
+
 /* Get by specific id */
 router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
