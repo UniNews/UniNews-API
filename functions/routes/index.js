@@ -21,7 +21,9 @@ router.get('/', function (req, res, next) {
       .orderByChild('timeStamp').on("value", function (snap)
        {
         snap.forEach(doc => {
-          let eachNews = doc.data()
+          console.log(doc)
+          console.log('paul')
+          let eachNews = doc.val()
           eachNews['id'] = doc.id
           res_data.push(eachNews)
         })
@@ -35,11 +37,13 @@ router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
     let id = req.params.id
     var news = newsCollection
-      .child(id)
       .child('learn')
-      .once('value')
-      .then(snap => {
-        if (snap.exists) {
+      .child(id)
+      .on("value",
+      function(snap) {
+        console.log('pauls')
+        console.log(snap)
+        if (snap!=null) {
           successResponse(
             res,
             'Get news by specific id successfully.',
@@ -51,9 +55,6 @@ router.get('/:id', function (req, res, next) {
             'The request news id could not be founded.'
           )
         }
-      })
-      .catch(err => {
-        timeOutErrorResponse(res, err)
       })
   })
 })
