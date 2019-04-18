@@ -1,9 +1,11 @@
 var express = require('express')
 var router = express.Router()
 
-const { firestore, authService, cors ,admin } = require('./../config/admin.js')
+const { firebase, firebaseDB, cors ,admin } = require('./../config/admin.js')
 
-const newsCollection = firestore.collection('news')
+var database = firebaseDB
+var newsCollection = database.ref('news');
+
 
 const {
   notFoundErrorResponse,
@@ -16,18 +18,14 @@ router.get('/', function (req, res, next) {
   cors(req, res, () => {
     var res_data = []
     var news = newsCollection
-      .orderBy('timeStamp', 'desc')
-      .get()
-      .then(snap => {
+      .orderByChild('timeStamp').on("value", function (snap)
+       {
         snap.forEach(doc => {
           let eachNews = doc.data()
           eachNews['id'] = doc.id
           res_data.push(eachNews)
         })
         successResponse(res, 'Get all news successfully.', res_data)
-      })
-      .catch(err => {
-        timeOutErrorResponse(res, err)
       })
   })
 })
@@ -37,14 +35,15 @@ router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
     let id = req.params.id
     var news = newsCollection
-      .doc(id)
-      .get()
+      .child(id)
+      .child('learn')
+      .once('value')
       .then(snap => {
         if (snap.exists) {
           successResponse(
             res,
             'Get news by specific id successfully.',
-            snap.data()
+            snap
           )
         } else {
           notFoundErrorResponse(
@@ -65,39 +64,46 @@ router.post('/:id/comments', function (req, res, next) {
     let msg = req.body.msg
     let newsId = req.params.id
     var res_data = {}
-    authService
+    admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
         res_data['user_id'] = decodedToken.user_id
         res_data['name'] = decodedToken.name
         res_data['msg'] = msg
+        var query = newsCollection.child(catalog).child(newsId)
+       .then(doc => {
+           if (!doc.exists) {
+              console.log("No such document!")
+           } else {
         newsCollection
-        .doc(newsId).update(
-          {
-            'comments': admin.firestore.FieldValue.arrayUnion(res_data)
-          }
-        )
+        .child(catalog)
+        .child(newsId)
+        .child('comments')
+        .child(doc.data().comments.length-1)
+        .setValue(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
         return decodedToken.user_id
+           }
       })
       .catch(function (error) {
         notFoundErrorResponse(res, 'Token is either expired or not valid.')
       })
   })
-})
+})})
 
 router.post('/:id/rating', function (req, res, next) {
   cors(req, res, () => {
     let user_token = req.body.user_token
     let rating = req.body.rating
     let newsId = req.params.id
+    let catalog = req.body.catalog
     var res_data = {}
-     authService
+     admin.auth()
      .verifyIdToken(user_token)
      .then(function (decodedToken) {
        res_data['user_id'] = decodedToken.user_id
        res_data['name'] = decodedToken.name
-       var query = newsCollection.doc(newsId).get()
+       var query = newsCollection.child(catalog).child(newsId)
        .then(doc => {
            if (!doc.exists) {
               console.log("No such document!")
@@ -108,12 +114,12 @@ router.post('/:id/rating', function (req, res, next) {
               else{
                 res_data['rating']=rating
               }
-               newsCollection
-               .doc(newsId).update(
-                 {
-                   'rating': admin.firestore.FieldValue.arrayUnion(res_data)
-                 }
-               )
+              newsCollection
+              .child(catalog)
+              .child(newsId)
+              .child('rating')
+              .child(doc.data().rating.length-1)
+              .setValue(res_data)
                successResponse(res, 'Post rating successfully.', res_data)
            }
        })

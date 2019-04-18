@@ -1,6 +1,5 @@
-const { admin } = require('./config/firebaseConfig.js')
-
-const newsCollection = admin.firestore().collection('news')
+const { admin,firebase} = require('./config/firebaseConfig.js')
+const newsCollection = firebase.ref('news')
 
 const news = [
   {
@@ -16,7 +15,8 @@ const news = [
       { user_id: '1', name: 'Jamie', rating: 4 },
       { user_id: '2', name: 'Mond', rating: 1 }
     ],
-    comments: [{ user_id: '1', name: 'Mond', msg: 'Kuy' }]
+    comments: [{ user_id: '1', name: 'Mond', msg: 'Kuy' }],
+    catalog:'learn'
   },
   {
     title: 'Find FWD in KU.',
@@ -31,7 +31,8 @@ const news = [
       { user_id: '2', name: 'Jamie', rating: 3.5 },
       { user_id: '1', name: 'Mond', rating: 5 }
     ],
-    comments: [{ user_id: '2', name: 'Jamie', msg: 'Hee' }]
+    comments: [{ user_id: '2', name: 'Jamie', msg: 'Hee' }],
+    catalog:'social'
   }
 ]
 
@@ -39,7 +40,8 @@ for (var i = 0; i < news.length; i++) {
   var timeStamp = new Date()
   news[i].timeStamp = ''+timeStamp.getDay()+'/'+(timeStamp.getMonth()+1)+'/'+timeStamp.getFullYear()+'  time '+timeStamp.getHours()+':'+timeStamp.getMinutes() // store a timestamp as a field in the documents.
   newsCollection
-    .add(news[i])
+    .child(news[i].catalog)
+    .push(news[i])
     .then(function (docRef) {
       console.log('Document written with ID: ', docRef.id)
     })

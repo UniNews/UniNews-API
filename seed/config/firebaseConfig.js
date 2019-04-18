@@ -5,9 +5,8 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://uninews-api.firebaseio.com'
 })
-var firestore = admin.firestore()
-firestore.settings({ timestampsInSnapshots: true })
+var firebase = admin.database()
 
 module.exports = {
-  admin
+  admin,firebase
 }
