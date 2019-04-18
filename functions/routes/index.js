@@ -43,17 +43,33 @@ router.get('/:id', function (req, res, next) {
       function(snap) {
         console.log('pauls')
         console.log(snap)
-        if (snap!=null) {
+        if (snap.val()!==null) {
           successResponse(
             res,
             'Get news by specific id successfully.',
-            snap
+            snap.val()
+          )
+        } else {
+          var news = newsCollection
+      .child('social')
+      .child(id)
+      .on("value",
+      function(snap) {
+        console.log('pauls')
+        console.log(snap)
+        if (snap.val()!==null) {
+          successResponse(
+            res,
+            'Get news by specific id successfully.',
+            snap.val()
           )
         } else {
           notFoundErrorResponse(
             res,
             'The request news id could not be founded.'
           )
+        }
+      })
         }
       })
   })
