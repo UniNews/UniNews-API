@@ -197,7 +197,7 @@ router.post('/:id/rating', function (req, res, next) {
                 console.log(l)
                 console.log(m)
                 console.log(num)
-                res_data['rating']= (parseInt(rating)+parseInt(l*m))/num
+                res_data['rating']= (parseFloat(rating)+parseFloat(l*m))/num
               }
               newsCollection
               .child(catalog)

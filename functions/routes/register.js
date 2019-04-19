@@ -23,7 +23,7 @@ router.post('/',function (req, res, next) {
             data['mail'] = email;
             data['password'] = password;
             data['disPlayName'] = disPlayName
-            usersRef.child(authData.uid).push(data)
+            usersRef.child(authData.uid).set(data)
             successResponse(res, 'regis successfully.', data)
         }).catch((_error) => {
             timeOutErrorResponse(res,_error)
