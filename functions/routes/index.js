@@ -142,6 +142,7 @@ router.post('/:id/comments', function (req, res, next) {
         .child(0)
         .set(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
+        return decodedToken.user_id
            }
             else {
         console.log(snap.val().comments.length)
@@ -160,7 +161,7 @@ router.post('/:id/comments', function (req, res, next) {
 
 router.post('/:id/rating', function (req, res, next) {
   cors(req, res, () => {
-    let user_token = req.body.user_token
+    //let user_token = req.body.user_token
     let rating = req.body.rating
     let newsId = req.params.id
     let catalog = req.body.catalog
@@ -171,33 +172,45 @@ router.post('/:id/rating', function (req, res, next) {
        res_data['user_id'] = decodedToken.user_id
        res_data['name'] = decodedToken.name
        var query = newsCollection.child(catalog).child(newsId)
-       .then(doc => {
-           if (!doc.exists) {
+       .once("value",
+       function(snap) { 
+         console.log(snap.val())
+           if (snap.val()==null) {
               console.log("No such document!")
            } else {
-              if(doc.data().rating.length>0){
-                res_data['rating']= (rating+doc.data().rating.length*doc.data().rating[doc.data().rating.length-1].rating)/(doc.data().rating.length+1)
-              }
-              else{
-                res_data['rating']=rating
+            if(snap.val().rating==null){
+              res_data['rating']=rating
+              newsCollection
+              .child(catalog)
+              .child(newsId)
+              .child('rating')
+              .child(0)
+              .set(res_data)
+              successResponse(res, 'Post rating successfully.', res_data)
+             return decodedToken.user_id
+            }else{
+              if(snap.val().rating.length>0){
+                console.log(rating)
+                l=snap.val().rating.length
+                m=snap.val().rating[snap.val().rating.length-1].rating
+                num=snap.val().rating.length+1
+                console.log(l)
+                console.log(m)
+                console.log(num)
+                res_data['rating']= (parseInt(rating)+parseInt(l*m))/num
               }
               newsCollection
               .child(catalog)
               .child(newsId)
               .child('rating')
-              .child(doc.data().rating.length-1)
-              .setValue(res_data)
+              .child(snap.val().rating.length)
+              .set(res_data)
                successResponse(res, 'Post rating successfully.', res_data)
+               return decodedToken.user_id
+              }
            }
        })
-       .catch(err => {
-           console.log('Error getting documents', err);
-       }); 
-      return decodedToken.user_id
      })
-       .catch(function (error) {
-         notFoundErrorResponse(res, 'Token is either expired or not valid.')
-       })
   })
 })
 
