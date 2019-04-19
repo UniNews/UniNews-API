@@ -118,6 +118,7 @@ router.post('/:id/comments', function (req, res, next) {
     let user_token = req.body.user_token
     let msg = req.body.msg
     let newsId = req.params.id
+    let catalog = req.body.catalog
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
@@ -126,22 +127,33 @@ router.post('/:id/comments', function (req, res, next) {
         res_data['name'] = decodedToken.name
         res_data['msg'] = msg
         var query = newsCollection.child(catalog).child(newsId)
-       .then(doc => {
-           if (!doc.exists) {
+       .once("value",
+       function(snap) { 
+         console.log(snap.val())
+           if (snap.val()==null) {
               console.log("No such document!")
-           } else {
+           }
+           else if(snap.val().comments == null)
+           {
         newsCollection
         .child(catalog)
         .child(newsId)
         .child('comments')
-        .child(doc.data().comments.length-1)
-        .setValue(res_data)
+        .child(0)
+        .set(res_data)
+        successResponse(res, 'Post comment successfully.', res_data)
+           }
+            else {
+        console.log(snap.val().comments.length)
+        newsCollection
+        .child(catalog)
+        .child(newsId)
+        .child('comments')
+        .child(snap.val().comments.length)
+        .set(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
         return decodedToken.user_id
            }
-      })
-      .catch(function (error) {
-        notFoundErrorResponse(res, 'Token is either expired or not valid.')
       })
   })
 })})

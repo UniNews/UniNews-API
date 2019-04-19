@@ -14,7 +14,7 @@ var config = {
 };
 firebase.initializeApp(config);
 var firebaseDB = firebase.database()
-
+admin.initializeApp()
 module.exports = {
   firebaseDB,
   admin,
