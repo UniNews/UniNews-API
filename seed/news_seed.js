@@ -12,8 +12,8 @@ const news = [
     ],
     timeStamp: null,
     rating: [
-      { user_id: '1', name: 'Jamie', rating: 4 },
-      { user_id: '2', name: 'Mond', rating: 1 }
+      { user_id: '1', name: 'Jamie', rating: 4 , user_rating: 4 },
+      { user_id: '2', name: 'Mond', rating: 2.5 ,user_rating: 1 }
     ],
     comments: [{ user_id: '1', name: 'Mond', msg: 'Kuy' }],
     catalog:'learn'
@@ -28,8 +28,8 @@ const news = [
     ],
     timeStamp: null,
     rating: [
-      { user_id: '2', name: 'Jamie', rating: 3.5 },
-      { user_id: '1', name: 'Mond', rating: 5 }
+      { user_id: '2', name: 'Jamie', rating: 3 ,user_rating: 3 },
+      { user_id: '1', name: 'Mond', rating: 4 ,user_rating: 5 }
     ],
     comments: [{ user_id: '2', name: 'Jamie', msg: 'Hee' }],
     catalog:'social'
