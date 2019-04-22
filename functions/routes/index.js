@@ -171,10 +171,48 @@ router.post('/:id/rating', function (req, res, next) {
      .then(function (decodedToken) {
        res_data['user_id'] = decodedToken.user_id
        res_data['name'] = decodedToken.name
+       res_data['user_rating'] = rating
        var query = newsCollection.child(catalog).child(newsId)
        .once("value",
        function(snap) { 
          console.log(snap.val())
+         if(newsCollection.child(catalog).child(newsId).child(rating).child(decodedToken.user_id).exists()){
+          if(snap.val()==null){
+            console.log("No such doc")
+          }else{
+            newsCollection.child(catalog).child(newsId).child(rating).child(decodedToken.user_id).remove()
+            if(snap.val().rating==null){
+              res_data['rating']=rating
+              newsCollection
+              .child(catalog)
+              .child(newsId)
+              .child('rating')
+              .child(0)
+              .set(res_data)
+              successResponse(res, 'Post rating successfully.', res_data)
+             return decodedToken.user_id
+            }else{
+              if(snap.val().rating.length>0){
+                console.log(rating)
+                l=snap.val().rating.length
+                m=snap.val().rating[snap.val().rating.length-1].rating
+                num=snap.val().rating.length+1
+                console.log(l)
+                console.log(m)
+                console.log(num)
+                res_data['rating']= (parseFloat(rating)+parseFloat(l*m))/num
+              }
+              newsCollection
+              .child(catalog)
+              .child(newsId)
+              .child('rating')
+              .child(snap.val().rating.length)
+              .set(res_data)
+               successResponse(res, 'Post rating successfully.', res_data)
+               return decodedToken.user_id
+            }
+          }
+         }else{
            if (snap.val()==null) {
               console.log("No such document!")
            } else {
@@ -207,6 +245,7 @@ router.post('/:id/rating', function (req, res, next) {
               .set(res_data)
                successResponse(res, 'Post rating successfully.', res_data)
                return decodedToken.user_id
+            }
               }
            }
        })
