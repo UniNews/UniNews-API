@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-const { firebase, firebaseDB, cors ,admin } = require('./../config/admin.js')
+const { firebaseDB, cors ,admin } = require('./../config/admin.js')
 
 var database = firebaseDB
 var newsCollection = database.ref('news');

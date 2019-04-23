@@ -2,6 +2,7 @@ const firebase = require('firebase')
 require("firebase/auth");
 require("firebase/database");
 const admin = require('firebase-admin')
+const functions = require('firebase-functions')
 const cors = require('cors')({
   origin: true
 })
@@ -16,8 +17,8 @@ var config = {
 };
 firebase.initializeApp(config);
 var firebaseDB = firebase.database()
-var firebaseAuth=firebase.auth()
-admin.initializeApp()
+var firebaseAuth=firebase.auth
+admin.initializeApp(functions.config().firebase)
 module.exports = {
   firebaseDB,
   admin,
