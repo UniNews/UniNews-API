@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-const {  cors ,firebaseDB,firebase,firebaseAuth  } = require('./../config/admin.js')
+const {  cors ,firebaseDB,firebaseAuth  } = require('./../config/admin.js')
 
 var database = firebaseDB
 var usersRef = database.ref('user');
@@ -21,8 +21,9 @@ router.post('/',function (req, res, next) {
             console.log("User created successfully with payload-", authData);
             let data = {};
             data['mail'] = email;
-            data['password'] = password;
             data['disPlayName'] = disPlayName
+            data['image']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
+            data['aboutUs']=''
             console.log("sddsdsdsds")
             console.log(authData.user.uid)
             usersRef.child(authData.user.uid).set(data)

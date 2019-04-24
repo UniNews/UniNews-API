@@ -17,7 +17,7 @@ var config = {
 };
 firebase.initializeApp(config);
 var firebaseDB = firebase.database()
-var firebaseAuth=firebase.auth
+var firebaseAuth=firebase.auth()
 admin.initializeApp(functions.config().firebase)
 module.exports = {
   firebaseDB,
