@@ -32,11 +32,12 @@ router.get('/', function (req, res, next) {
   })
 })
 
-router.get('/learn', function (req, res, next) {
+router.get('/:campus', function (req, res, next) {
   cors(req, res, () => {
     var res_data = []
+    let campus = req.params.campus
     var news = newsCollection
-      .child('learn')
+      .child(campus)
       .orderByChild('timeStamp').on("value", function (snap)
        {
         snap.forEach(doc => {
@@ -51,24 +52,6 @@ router.get('/learn', function (req, res, next) {
   })
 })
 
-router.get('/social', function (req, res, next) {
-  cors(req, res, () => {
-    var res_data = []
-    var news = newsCollection
-      .child('social')
-      .orderByChild('timeStamp').on("value", function (snap)
-       {
-        snap.forEach(doc => {
-          console.log(doc)
-          console.log('paul')
-          let eachNews = doc.val()
-          eachNews['id'] = doc.id
-          res_data.push(eachNews)
-        })
-        successResponse(res, 'Get all news successfully.', res_data)
-      })
-  })
-})
 
 /* Get by specific id */
 router.get('/:id', function (req, res, next) {
@@ -124,7 +107,6 @@ router.post('/:id/comments', function (req, res, next) {
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
         res_data['user_id'] = decodedToken.user_id
-        res_data['name'] = decodedToken.name
         res_data['msg'] = msg
         var query = newsCollection.child(catalog).child(newsId)
        .once("value",
@@ -161,96 +143,45 @@ router.post('/:id/comments', function (req, res, next) {
 
 router.post('/:id/rating', function (req, res, next) {
   cors(req, res, () => {
-    //let user_token = req.body.user_token
-    let rating = req.body.rating
+    let user_token = req.body.user_token
     let newsId = req.params.id
     let catalog = req.body.catalog
     var res_data = {}
-     admin.auth()
-     .verifyIdToken(user_token)
-     .then(function (decodedToken) {
-       res_data['user_id'] = decodedToken.user_id
-       res_data['name'] = decodedToken.name
-       res_data['user_rating'] = rating
-       var query = newsCollection.child(catalog).child(newsId)
+    admin.auth()
+      .verifyIdToken(user_token)
+      .then(function (decodedToken) {
+        res_data['user_id'] = decodedToken.user_id
+        var query = newsCollection.child(catalog).child(newsId)
        .once("value",
        function(snap) { 
          console.log(snap.val())
-         if(newsCollection.child(catalog).child(newsId).child(rating).child(decodedToken.user_id).exists()){
-          if(snap.val()==null){
-            console.log("No such doc")
-          }else{
-            newsCollection.child(catalog).child(newsId).child(rating).child(decodedToken.user_id).remove()
-            if(snap.val().rating==null){
-              res_data['rating']=rating
-              newsCollection
-              .child(catalog)
-              .child(newsId)
-              .child('rating')
-              .child(0)
-              .set(res_data)
-              successResponse(res, 'Post rating successfully.', res_data)
-             return decodedToken.user_id
-            }else{
-              if(snap.val().rating.length>0){
-                console.log(rating)
-                l=snap.val().rating.length
-                m=snap.val().rating[snap.val().rating.length-1].rating
-                num=snap.val().rating.length+1
-                console.log(l)
-                console.log(m)
-                console.log(num)
-                res_data['rating']= (parseFloat(rating)+parseFloat(l*m))/num
-              }
-              newsCollection
-              .child(catalog)
-              .child(newsId)
-              .child('rating')
-              .child(snap.val().rating.length)
-              .set(res_data)
-               successResponse(res, 'Post rating successfully.', res_data)
-               return decodedToken.user_id
-            }
-          }
-         }else{
            if (snap.val()==null) {
               console.log("No such document!")
-           } else {
-            if(snap.val().rating==null){
-              res_data['rating']=rating
-              newsCollection
-              .child(catalog)
-              .child(newsId)
-              .child('rating')
-              .child(0)
-              .set(res_data)
-              successResponse(res, 'Post rating successfully.', res_data)
-             return decodedToken.user_id
-            }else{
-              if(snap.val().rating.length>0){
-                console.log(rating)
-                l=snap.val().rating.length
-                m=snap.val().rating[snap.val().rating.length-1].rating
-                num=snap.val().rating.length+1
-                console.log(l)
-                console.log(m)
-                console.log(num)
-                res_data['rating']= (parseFloat(rating)+parseFloat(l*m))/num
-              }
-              newsCollection
-              .child(catalog)
-              .child(newsId)
-              .child('rating')
-              .child(snap.val().rating.length)
-              .set(res_data)
-               successResponse(res, 'Post rating successfully.', res_data)
-               return decodedToken.user_id
-            }
-              }
            }
-       })
-     })
+           else if(snap.val().rating == null)
+           {
+        newsCollection
+        .child(catalog)
+        .child(newsId)
+        .child('rating')
+        .child(0)
+        .set(res_data)
+        successResponse(res, 'Post comment successfully.', res_data)
+        return decodedToken.user_id
+           }
+            else {
+        console.log(snap.val().rating.length)
+        newsCollection
+        .child(catalog)
+        .child(newsId)
+        .child('rating')
+        .child(snap.val().rating.length)
+        .set(res_data)
+        successResponse(res, 'Post comment successfully.', res_data)
+        return decodedToken.user_id
+           }
+      })
   })
-})
+})})
 
 module.exports = router

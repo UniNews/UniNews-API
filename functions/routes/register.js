@@ -16,13 +16,13 @@ router.post('/',function (req, res, next) {
     cors(req, res, () => {
         email=req.body.email
         password=req.body.password
-        disPlayName=req.body.disPlayName
+        displayName=req.body.displayName
         firebaseAuth.createUserWithEmailAndPassword(email, password).then((authData) => {
             console.log("User created successfully with payload-", authData);
             let data = {};
-            data['mail'] = email;
-            data['disPlayName'] = disPlayName
-            data['image']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
+            data['email'] = email;
+            data['displayName'] = displayName
+            data['img']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
             data['aboutUs']=''
             console.log("sddsdsdsds")
             console.log(authData.user.uid)

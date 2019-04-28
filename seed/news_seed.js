@@ -3,36 +3,82 @@ const newsCollection = firebase.ref('news')
 
 const news = [
   {
-    title: 'Best OOP2 Tutor Ever.',
-    description: 'Come and join to our darkside in 1/1/2019.',
-    imgs: [
-      'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.0-9/16684191_1431759500227788_4523539130141331084_n.jpg?_nc_cat=111&_nc_ht=scontent.fbkk22-1.fna&oh=cce56279a45f428f8ddd8988aef5d567&oe=5CBF2A37',
-      'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.0-9/10934003_816450055092072_1906053053581759871_n.jpg?_nc_cat=111&_nc_ht=scontent.fbkk22-1.fna&oh=6f43cb819c1d4a408259b49af4378c60&oe=5CBDFD63',
-      'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/1526768_776164669120611_2894389809615234852_n.jpg?_nc_cat=109&_nc_ht=scontent.fbkk22-2.fna&oh=a503cedd875338bf1c0f37143d58dd00&oe=5C9099AC'
-    ],
+    title: 'Go! Go! Go! Golang!',
+    description: 'กิจกรรมนี้ เป็นกิจกรรมสุดท้ายของเทอมปลาย 61 แล้ว มีพี่ติ๊ด Waewprach Suthirawut และ พี่แปลน Monthol Charattrakool มาสอน Golang ค่ะ พี่ๆวิทยากรบอกว่า สอนตั้งแต่ basics ไปจนถึง application ใครสนใจ ลงทะเบียนได้ที่ http://bit.ly/2Cwc322 ค่ะ',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/55503378_1243562959126681_5093210860864667648_o.jpg?_nc_cat=100&_nc_ht=scontent.fbkk2-8.fna&oh=4254a700da68dd548a24545f422110c9&oe=5D3D6652',
     timeStamp: null,
     rating: [
-      { user_id: '1', name: 'Jamie', rating: 4 , user_rating: 4 },
-      { user_id: '2', name: 'Mond', rating: 2.5 ,user_rating: 1 }
+      { user_id: 'PHOqBCVLGUNqhZzxhvYyiy56tQr2'},
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572'}
     ],
-    comments: [{ user_id: '1', name: 'Mond', msg: 'Kuy' }],
-    catalog:'learn'
+    comments: [{ user_id:'jnZzrhKxSXWdIBXvjtFuOAoQ8572', msg: 'Kub' }],
+    author:'Supaporn Erjongmanee',
+    tag:['Tutor'],
+    catalog:'Tutors',
+    location:'Department of Computer Engineering'
   },
   {
-    title: 'Find FWD in KU.',
-    description: 'I have been waiting for you for a long time.',
-    imgs: [
-      'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-1/28577899_790880621104128_4654599030704530848_n.jpg?_nc_cat=109&_nc_ht=scontent.fbkk22-2.fna&oh=2eb8045f86f08347aae32556121a75c4&oe=5CD79B7C',
-      'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-0/p206x206/22365568_719232694935588_5027044140868658038_n.jpg?_nc_cat=106&_nc_ht=scontent.fbkk22-2.fna&oh=084be8064cd19cb9cdc605014fc7537c&oe=5C911FD3',
-      'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.0-9/13015550_476503695875157_9158396802062028871_n.jpg?_nc_cat=101&_nc_ht=scontent.fbkk22-1.fna&oh=bebd43bd0bc116b8f36bfd4569f51c10&oe=5CCC7315'
-    ],
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
     timeStamp: null,
     rating: [
-      { user_id: '2', name: 'Jamie', rating: 3 ,user_rating: 3 },
-      { user_id: '1', name: 'Mond', rating: 4 ,user_rating: 5 }
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
-    comments: [{ user_id: '2', name: 'Jamie', msg: 'Hee' }],
-    catalog:'social'
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Official News',
+    location:'Department of Computer Engineering'
+  },
+  {
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
+    timeStamp: null,
+    rating: [
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
+    ],
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Official News',
+    location:'Department of Computer Engineering'
+  },
+  {
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
+    timeStamp: null,
+    rating: [
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
+    ],
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Official News',
+    location:'Department of Computer Engineering'
+  }, {
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
+    timeStamp: null,
+    rating: [
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
+    ],
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Official News',
+    location:'Department of Computer Engineering'
   }
 ]
 
