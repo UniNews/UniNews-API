@@ -101,13 +101,14 @@ router.post('/:id/comments', function (req, res, next) {
     let user_token = req.body.user_token
     let msg = req.body.msg
     let newsId = req.params.id
-    let catalog = req.body.catalog
+    var catalogs = ['Ask Questions','Doom Review','Official News','Personals','Subject Review','Talks','Tutors']
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
         res_data['user_id'] = decodedToken.user_id
         res_data['msg'] = msg
+      catalogs.forEach(function(catalog){ 
         var query = newsCollection.child(catalog).child(newsId)
        .once("value",
        function(snap) { 
@@ -138,19 +139,21 @@ router.post('/:id/comments', function (req, res, next) {
         return decodedToken.user_id
            }
       })
-  })
+    }
+)})
 })})
 
 router.post('/:id/rating', function (req, res, next) {
   cors(req, res, () => {
     let user_token = req.body.user_token
     let newsId = req.params.id
-    let catalog = req.body.catalog
+    var catalogs = ['Ask Questions','Doom Review','Official News','Personals','Subject Review','Talks','Tutors']
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
         res_data['user_id'] = decodedToken.user_id
+        catalogs.forEach(function(catalog){
         var query = newsCollection.child(catalog).child(newsId)
        .once("value",
        function(snap) { 
@@ -180,7 +183,9 @@ router.post('/:id/rating', function (req, res, next) {
         successResponse(res, 'Post comment successfully.', res_data)
         return decodedToken.user_id
            }
-      })
+      })})
+  }).catch(err =>{
+    console.log(err)
   })
 })})
 

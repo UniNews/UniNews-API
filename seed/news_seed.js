@@ -46,7 +46,7 @@ const news = [
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
     author:'Pirawat Watanapongse‎',
     tag:['Job'],
-    catalog:'Official News',
+    catalog:'Ask Questions',
     location:'Department of Computer Engineering'
   },
   {
@@ -62,7 +62,7 @@ const news = [
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
     author:'Pirawat Watanapongse‎',
     tag:['Job'],
-    catalog:'Official News',
+    catalog:'Talks',
     location:'Department of Computer Engineering'
   }, {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
@@ -77,7 +77,37 @@ const news = [
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
     author:'Pirawat Watanapongse‎',
     tag:['Job'],
-    catalog:'Official News',
+    catalog:'Doom Review',
+    location:'Department of Computer Engineering'
+  }, {
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
+    timeStamp: null,
+    rating: [
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
+    ],
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Personals',
+    location:'Department of Computer Engineering'
+  }, {
+    title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
+    description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
+    imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/58578348_333106480724305_5982360037069160448_n.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=4315205352f5be48bdc2f87df783078e&oe=5D752E64'
+    ,
+    timeStamp: null,
+    rating: [
+      { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572' },
+      { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
+    ],
+    comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
+    author:'Pirawat Watanapongse‎',
+    tag:['Job'],
+    catalog:'Subject Review',
     location:'Department of Computer Engineering'
   }
 ]
