@@ -177,6 +177,8 @@ router.post('/:id/rating', function (req, res, next) {
               console.log(snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0)
         if(snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0){
           console.log("User already like")
+          newsCollection.child(catalog).child(newsId).child('rating').set(snap.val().rating.filter(e => e.user_id !==decodedToken.user_id))
+          successResponse(res, 'delete rating successfully.', res_data)
           return
         }else{
         console.log(snap.val().rating.length)
