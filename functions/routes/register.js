@@ -24,6 +24,7 @@ router.post('/',function (req, res, next) {
             data['displayName'] = displayName
             data['img']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
             data['aboutUs']=''
+            data['permission']=false
             console.log("sddsdsdsds")
             console.log(authData.user.uid)
             usersRef.child(authData.user.uid).set(data)

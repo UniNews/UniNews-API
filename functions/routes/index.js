@@ -173,6 +173,12 @@ router.post('/:id/rating', function (req, res, next) {
         return decodedToken.user_id
            }
             else {
+              console.log(snap.val().rating)
+              console.log(snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0)
+        if(snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0){
+          console.log("User already like")
+          return
+        }else{
         console.log(snap.val().rating.length)
         newsCollection
         .child(catalog)
@@ -182,6 +188,7 @@ router.post('/:id/rating', function (req, res, next) {
         .set(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
         return decodedToken.user_id
+        }
            }
       })})
   }).catch(err =>{
