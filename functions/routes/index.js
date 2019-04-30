@@ -24,7 +24,6 @@ router.get('/', function (req, res, next) {
           console.log(doc)
           console.log('paul')
           let eachNews = doc.val()
-          eachNews['id'] = doc.id
           res_data.push(eachNews)
         })
         successResponse(res, 'Get all news successfully.', res_data)
@@ -44,7 +43,7 @@ router.get('/:campus', function (req, res, next) {
           console.log(doc)
           console.log('paul')
           let eachNews = doc.val()
-          eachNews['id'] = doc.id
+          eachNews['id'] = doc.key
           res_data.push(eachNews)
         })
         successResponse(res, 'Get all news successfully.', res_data)
