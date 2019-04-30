@@ -31,7 +31,7 @@ router.get('/', function (req, res, next) {
   })
 })
 
-router.get('/:campus', function (req, res, next) {
+router.get('/campus/:campus', function (req, res, next) {
   cors(req, res, () => {
     var res_data = []
     let campus = req.params.campus
@@ -56,24 +56,13 @@ router.get('/:campus', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
     let id = req.params.id
+    var catalogs = ['Ask Questions','Doom Review','Official News','Personals','Subject Review','Talks','Tutors']
+    console.log('jp')
+    catalogs.forEach(function(catalog){ 
     var news = newsCollection
-      .child('learn')
+      .child(catalog)
       .child(id)
-      .on("value",
-      function(snap) {
-        console.log('pauls')
-        console.log(snap)
-        if (snap.val()!==null) {
-          successResponse(
-            res,
-            'Get news by specific id successfully.',
-            snap.val()
-          )
-        } else {
-          var news = newsCollection
-      .child('social')
-      .child(id)
-      .on("value",
+      .once("value",
       function(snap) {
         console.log('pauls')
         console.log(snap)
@@ -90,10 +79,11 @@ router.get('/:id', function (req, res, next) {
           )
         }
       })
-        }
+        
       })
+    })
   })
-})
+
 
 router.post('/:id/comments', function (req, res, next) {
   cors(req, res, () => {
