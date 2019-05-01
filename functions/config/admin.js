@@ -6,7 +6,7 @@ const functions = require('firebase-functions')
 const cors = require('cors')({
   origin: true
 })
-
+//const fileUpload = require("./cloud-function-file-upload");
 var config = {
   apiKey: "AIzaSyD809aZn1CwnJPNwvTh-p4SHSNysesnS0U",
   authDomain: "uninews-api.firebaseapp.com",
@@ -24,5 +24,6 @@ module.exports = {
   admin,
   cors,
   firebase,
-  firebaseAuth
+  firebaseAuth,
+ // fileUpload
 }

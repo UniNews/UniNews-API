@@ -5,7 +5,7 @@ const { firebaseDB, cors ,admin } = require('./../config/admin.js')
 
 var database = firebaseDB
 var newsCollection = database.ref('news');
-
+var usersRef = database.ref('user');
 
 const {
   notFoundErrorResponse,
@@ -57,26 +57,35 @@ router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
     let id = req.params.id
     var catalogs = ['Ask Questions','Doom Review','Official News','Personals','Subject Review','Talks','Tutors']
-    console.log('jp')
     catalogs.forEach(function(catalog){ 
     var news = newsCollection
       .child(catalog)
       .child(id)
       .once("value",
-      function(snap) {
-        console.log('pauls')
-        console.log(snap)
+      async function(snap) {
         if (snap.val()!==null) {
+           sk=snap.val()
+           var k=await sk.comments.filter(async function(e){
+            //console.log('sssssssssss')
+            var user =await usersRef.child(e.user_id).once("value",async function(sd){
+            }).then(x=>{
+              console.log(x.val())
+              e['displayName']=x.val().displayName
+              e['img']=x.val().img
+              return e
+            })
+            console.log(e)
+            return e
+
+          })
           successResponse(
             res,
             'Get news by specific id successfully.',
-            snap.val()
-          )
+            k
+            )
+          
         } else {
-          notFoundErrorResponse(
-            res,
-            'The request news id could not be founded.'
-          )
+          console.log('not found')
         }
       })
         
