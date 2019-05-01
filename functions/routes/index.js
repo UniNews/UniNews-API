@@ -52,6 +52,7 @@ router.get('/campus/:campus', function (req, res, next) {
 })
 
 
+
 /* Get by specific id */
 router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
@@ -81,7 +82,7 @@ router.get('/:id', function (req, res, next) {
           successResponse(
             res,
             'Get news by specific id successfully.',
-            k
+            snap.val()
             )
           
         } else {
@@ -195,5 +196,31 @@ router.post('/:id/rating', function (req, res, next) {
     console.log(err)
   })
 })})
+
+router.post('/addnews',function (req, res, next) {
+  cors(req, res, () => {
+     var author = req.body.author
+     var catalog= req.body.catalog
+     var description =req.body.description
+     var imgs =req.body.imgs
+     var location = req.body.location
+     var timeStamp =req.body.timeStamp
+     var title=req.body.title
+     var tag =req.body.tag
+     var res_data={}
+     res_data['author']=author
+     res_data['catalog']=catalog
+     res_data['description']=description
+     res_data['imgs']=imgs
+     res_data['location']=location
+     res_data['timeStamp']=timeStamp
+     res_data['title']=title
+     res_data['tag']=tag
+     res_data['comments']=[]
+     res_data['rating']=[]
+    newsCollection.child(catalog).push(res_data)
+    successResponse(res, 'Post comment successfully.', res_data)
+  })
+})
 
 module.exports = router
