@@ -62,13 +62,12 @@ router.get('/:id', function (req, res, next) {
     var news = newsCollection
       .child(catalog)
       .child(id)
-      .once("value",
-      async function(snap) {
+      .on("value",function(snap) {
         if (snap.val()!==null) {
            sk=snap.val()
-           var k=await sk.comments.filter(async function(e){
-            //console.log('sssssssssss')
-            var user =await usersRef.child(e.user_id).once("value",async function(sd){
+           var k=sk.comments.filter( function(e){
+            var user =usersRef.child(e.user_id).once("value", function(sd){
+              
             }).then(x=>{
               console.log(x.val())
               e['displayName']=x.val().displayName
