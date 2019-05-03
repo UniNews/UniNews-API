@@ -12,10 +12,9 @@ const news = [
       { user_id: 'jnZzrhKxSXWdIBXvjtFuOAoQ8572'}
     ],
     comments: [{ user_id:'jnZzrhKxSXWdIBXvjtFuOAoQ8572', msg: 'Kub' }],
-    author:'Supaporn Erjongmanee',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Tutor'],
     catalog:'Tutors',
-    location:'Department of Computer Engineering'
   },
   {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
@@ -28,10 +27,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Official News',
-    location:'Department of Computer Engineering'
   },
   {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
@@ -44,10 +42,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Ask Questions',
-    location:'Department of Computer Engineering'
   },
   {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
@@ -60,10 +57,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Talks',
-    location:'Department of Computer Engineering'
   }, {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
     description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
@@ -75,10 +71,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Doom Review',
-    location:'Department of Computer Engineering'
   }, {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
     description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
@@ -90,10 +85,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Personals',
-    location:'Department of Computer Engineering'
   }, {
     title: 'สถาบัน Asian Institute of Technology (AIT)เปิดรับสมัครทุนรัฐบาลไทย',
     description: 'อ่านรายละเอียดได้ที่: https://www.ait.ac.th/admissio…/scholarships/rtg-fellowship/',
@@ -105,10 +99,9 @@ const news = [
       { user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2' }
     ],
     comments: [{ user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2', msg: 'Hi' }],
-    author:'Pirawat Watanapongse‎',
+    user_id: 'tHh3TUhjaAR0dJCMkaZNFWOahtk2',
     tag:['Job'],
     catalog:'Subject Review',
-    location:'Department of Computer Engineering'
   }
 ]
 
