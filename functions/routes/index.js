@@ -62,28 +62,25 @@ router.get('/:id', function (req, res, next) {
     var news = newsCollection
       .child(catalog)
       .child(id)
-      .on("value",function(snap) {
+      .on("value",async function(snap) {
         if (snap.val()!==null) {
            sk=snap.val()
-           var k=sk.comments.filter( function(e){
-            var user =usersRef.child(e.user_id).once("value", function(sd){
-              
-            }).then(x=>{
-              console.log(x.val())
-              e['displayName']=x.val().displayName
-              e['img']=x.val().img
-              return e
+           for(const e of sk.comments){
+            var user = await usersRef.child(e.user_id).once("value", function(sd){
+              console.log(sd.val())
+              console.log("sssssss")
+              e['displayName']=sd.val().displayName
+              e['img']=sd.val().img
+              console.log('ssdsdsdsdsdsds')
+              console.log(e)
             })
-            console.log(e)
-            return e
-
-          })
+          }
+          console.log(sk)
           successResponse(
             res,
             'Get news by specific id successfully.',
-            snap.val()
+            sk
             )
-          
         } else {
           console.log('not found')
         }
