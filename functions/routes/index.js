@@ -195,20 +195,21 @@ router.post('/:id/rating', function (req, res, next) {
 
 router.post('/addnews',function (req, res, next) {
   cors(req, res, () => {
-     var author = req.body.author
+     var user_token=req.body.user_token
      var catalog= req.body.catalog
      var description =req.body.description
      var imgs =req.body.imgs
-     var location = req.body.location
      var timeStamp =req.body.timeStamp
      var title=req.body.title
      var tag =req.body.tag
      var res_data={}
-     res_data['author']=author
+     admin.auth()
+      .verifyIdToken(user_token)
+      .then(function (decodedToken) {
+     res_data['user_id']=decodedToken.uid
      res_data['catalog']=catalog
      res_data['description']=description
      res_data['imgs']=imgs
-     res_data['location']=location
      res_data['timeStamp']=timeStamp
      res_data['title']=title
      res_data['tag']=tag
@@ -216,6 +217,9 @@ router.post('/addnews',function (req, res, next) {
      res_data['rating']=[]
     newsCollection.child(catalog).push(res_data)
     successResponse(res, 'Post comment successfully.', res_data)
+  }).catch(err =>{
+    console.log(err)
+  })
   })
 })
 
