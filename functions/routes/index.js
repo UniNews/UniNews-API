@@ -206,7 +206,7 @@ router.post('/addnews',function (req, res, next) {
      admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
-     res_data['user_id']=decodedToken.uid
+     res_data['author_id']=decodedToken.uid
      res_data['catalog']=catalog
      res_data['description']=description
      res_data['imgs']=imgs
