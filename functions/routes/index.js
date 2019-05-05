@@ -24,6 +24,7 @@ router.get('/', function (req, res, next) {
           console.log('paul')
           let eachNews = doc.val()
           var xs=eachNews[Object.keys(eachNews)]
+          xs['id'] = Object.keys(eachNews)
           res_data.push(xs)
         })
         successResponse(res, 'Get all news successfully.', res_data)
