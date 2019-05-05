@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-const {  cors ,firebaseDB,firebaseAuth  } = require('./../config/admin.js')
+const {  cors ,firebaseDB,admin  } = require('./../config/admin.js')
 
 var database = firebaseDB
 var usersRef = database.ref('user');
@@ -14,27 +14,26 @@ const {
 
 router.post('/',function (req, res, next) {
     cors(req, res, () => {
-        email=req.body.email
-        password=req.body.password
+        user_token=req.body.user_token
         displayName=req.body.displayName
-        firebaseAuth.createUserWithEmailAndPassword(email, password).then((authData) => {
-            console.log("User created successfully with payload-", authData);
             let data = {};
-            data['email'] = email;
+            admin.auth()
+            .verifyIdToken(user_token)
+            .then(function (decodedToken) {
             data['displayName'] = displayName
             data['img']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
-            data['aboutUs']=''
+            data['aboutMe']=''
             data['permission']=false
             data['following']=[]
             data['follower']=[]
             console.log("sddsdsdsds")
-            console.log(authData.user.uid)
-            usersRef.child(authData.user.uid).set(data)
+            console.log(decodedToken.uid)
+            usersRef.child(decodedToken.uid).set(data)
             console.log("ssssss")
             successResponse(res, 'regis successfully.', data)
-        }).catch((_error) => {
-            timeOutErrorResponse(res,_error)
-        })
+            }).catch(err=>{
+              timeOutErrorResponse(res,err)
+            })
         
     })
   })

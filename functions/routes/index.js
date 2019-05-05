@@ -23,7 +23,8 @@ router.get('/', function (req, res, next) {
           console.log(doc)
           console.log('paul')
           let eachNews = doc.val()
-          res_data.push(eachNews)
+          var xs=eachNews[Object.keys(eachNews)]
+          res_data.push(xs)
         })
         successResponse(res, 'Get all news successfully.', res_data)
       })

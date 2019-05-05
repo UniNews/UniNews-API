@@ -11,7 +11,25 @@ const {
   timeOutErrorResponse,
   successResponse
 } = require('./../utils/response.js')
-
+router.post('/profile',function (req, res, next) {
+  cors(req, res, () => {
+      let user_token = req.body.user_token
+      let displayName = req.body.displayName
+      let aboutMe = req.body.aboutMe
+      data = {}
+      admin.auth()
+      .verifyIdToken(user_token)
+      .then(function (decodedToken) {
+      usersRef.child(decodedToken.uid).on("value", function (snap)
+      {
+        data['displayName'] = displayName
+        data['img']=img
+        data['aboutMe']=aboutMe
+       successResponse(res, 'Update profile successfully', data)
+     })
+    })
+  })
+})
 router.get('/:id',function (req, res, next) {
     cors(req, res, () => {
         let id = req.params.id
