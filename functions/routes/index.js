@@ -107,22 +107,27 @@ router.post('/:id/comments', function (req, res, next) {
           var query = newsCollection.child(catalog).child(newsId)
             .once("value",
               function (snap) {
-                console.log(snap.val())
                 if (snap.val() == null) {
                   console.log("No such document!")
                 }
                 else if (snap.val().comments == null) {
-                  newsCollection
+                    usersRef.child(decodedToken.user_id).once("value",function(snapshot){
+                      console.log(snapshot.val().displayName)
+                      res_data['displayName']=snapshot.val().displayName
+                      newsCollection
                     .child(catalog)
                     .child(newsId)
                     .child('comments')
                     .child(0)
                     .set(res_data)
-                  successResponse(res, 'Post comment successfully.', res_data)
-                  return decodedToken.user_id
+                    successResponse(res, 'Post comment successfully.', res_data)
+                    return decodedToken.user_id
+                    })
                 }
                 else {
                   console.log(snap.val().comments.length)
+                  usersRef.child(decodedToken.user_id).once("value",function(snapshot){
+                    res_data['displayName']=snapshot.val().displayName
                   newsCollection
                     .child(catalog)
                     .child(newsId)
@@ -131,6 +136,7 @@ router.post('/:id/comments', function (req, res, next) {
                     .set(res_data)
                   successResponse(res, 'Post comment successfully.', res_data)
                   return decodedToken.user_id
+                  })
                 }
               })
         }
@@ -208,7 +214,8 @@ router.post('/addnews', function (req, res, next) {
     admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
-        res_data['author_id'] = decodedToken.uid
+        usersRef.child(decodedToken.uid).once("value",function(snap){
+        res_data['author'] = {'author_id':decodedToken.uid,'displayName':snap.val().displayName}
         res_data['catalog'] = catalog
         res_data['description'] = description
         res_data['imgs'] = imgs
@@ -219,6 +226,7 @@ router.post('/addnews', function (req, res, next) {
         res_data['rating'] = []
         newsCollection.child(catalog).push(res_data)
         successResponse(res, 'Post comment successfully.', res_data)
+        })
       }).catch(err => {
         console.log(err)
       })
