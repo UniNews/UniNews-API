@@ -57,7 +57,7 @@ router.get('/campus/:campus', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
   cors(req, res, () => {
     let id = req.params.id
-    var catalogs = ['Ask Questions', 'Doom Review', 'Official News', 'Personals', 'Subject Review', 'Talks', 'Tutors']
+    var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
     catalogs.forEach(function (catalog) {
       var news = newsCollection
         .child(catalog)
@@ -65,6 +65,7 @@ router.get('/:id', function (req, res, next) {
         .on("value", async function (snap) {
           if (snap.val() !== null) {
             sk = snap.val()
+            if(sk.comments){
             for (const e of sk.comments) {
               var user = await usersRef.child(e.user_id).once("value", function (sd) {
                 console.log(sd.val())
@@ -81,6 +82,10 @@ router.get('/:id', function (req, res, next) {
               'Get news by specific id successfully.',
               sk
             )
+            }
+            else{
+              console.log('no comments')
+            }
           } else {
             console.log('not found')
           }
@@ -96,7 +101,7 @@ router.post('/:id/comments', function (req, res, next) {
     let user_token = req.body.user_token
     let msg = req.body.msg
     let newsId = req.params.id
-    var catalogs = ['Ask Questions', 'Doom Review', 'Official News', 'Personals', 'Subject Review', 'Talks', 'Tutors']
+    var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
@@ -149,7 +154,7 @@ router.post('/:id/rating', function (req, res, next) {
   cors(req, res, () => {
     let user_token = req.body.user_token
     let newsId = req.params.id
-    var catalogs = ['Ask Questions', 'Doom Review', 'Official News', 'Personals', 'Subject Review', 'Talks', 'Tutors']
+    var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
