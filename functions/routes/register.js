@@ -20,6 +20,10 @@ router.post('/',function (req, res, next) {
             admin.auth()
             .verifyIdToken(user_token)
             .then(function (decodedToken) {
+              console.log(decodedToken.uid)
+              usersRef.child(decodedToken.uid).on('value',function(snap){
+                console.log(snap.val())
+            if(snap.val()==null){
             data['user_id']=decodedToken.uid
             data['displayName'] = displayName
             data['img']='https://firebasestorage.googleapis.com/v0/b/uninews-api.appspot.com/o/default_user.png?alt=media&token=fdfe897b-5019-4fa7-861a-1afcc92b48f2'
@@ -27,11 +31,20 @@ router.post('/',function (req, res, next) {
             data['permission']=false
             data['following']=[]
             data['follower']=[]
+            data['post_news']=[]
+            data['like_news']=[]
             console.log("sddsdsdsds")
             console.log(decodedToken.uid)
             usersRef.child(decodedToken.uid).set(data)
             console.log("ssssss")
             successResponse(res, 'regis successfully.', data)
+            }else{
+              usersRef.child(decodedToken.uid).on('value',function(snap){
+                console.log(snap.val())
+                successResponse(res,'old profile',snap.val())
+              })
+            }
+          })
             }).catch(err=>{
               timeOutErrorResponse(res,err)
             })
