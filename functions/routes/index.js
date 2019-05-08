@@ -1,5 +1,6 @@
 const uuid =require('uuid')
 var express = require('express')
+const {forEach} =require('p-iteration')
 var router = express.Router()
 
 const { firebaseDB, cors, admin } = require('./../config/admin.js')
@@ -18,28 +19,30 @@ const {
 router.get('/', function (req, res, next) {
   cors(req, res, () => {
     var res_data = []
-    var news = newsCollection
-      .orderByChild('timeStamp').on("value", function (snap) {
+    var news =  newsCollection
+      .orderByChild('timeStamp').on("value",async function (snap) {
         snap.forEach(doc => {
           usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
-          console.log(snapshot.val())
           let eachNews = doc.val()
           var xs=eachNews[Object.keys(eachNews)]
-          xs['id'] = Object.keys(eachNews)
-          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName:':snapshot.val().displayName}
+          xs['id'] = Object.keys(eachNews)[0]
+          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(xs)
         })
         })
+
+        console.log('ssssssssss')
+        console.log(res_data)
         successResponse(res, 'Get all news successfully.', res_data)
       })
   })
 })
 
 router.get('/campus/:campus', function (req, res, next) {
-  cors(req, res, () => {
+  cors(req, res, async() => {
     var res_data = []
     let campus = req.params.campus
-    var news = newsCollection
+    var news = await newsCollection
       .child(campus)
       .orderByChild('timeStamp').on("value",async function (snap) {
           snap.forEach(doc => {
@@ -51,10 +54,14 @@ router.get('/campus/:campus', function (req, res, next) {
           let eachNews = doc.val()
           eachNews['id'] = doc.key
           res_data.push(eachNews)
+          console.log('dddd')
+          console.log(res_data)
           })
         })
-        successResponse(res, 'Get all news successfully.', res_data)
       })
+      console.log('ssssssssss')
+      console.log(res_data)
+      successResponse(res, 'Get all news successfully.', res_data)
   })
 })
 
@@ -194,7 +201,7 @@ router.post('/:id/rating', function (req, res, next) {
                           let eachNews = doc.val()
                           var xs=eachNews[Object.keys(eachNews)]
                           xs['id'] = Object.keys(eachNews)
-                          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName:':snapshot.val().displayName}
+                          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
                            wrap.push(xs)
                          }
                      })
@@ -206,6 +213,7 @@ router.post('/:id/rating', function (req, res, next) {
                      .child('rating')
                      .child(0)
                      .set(res_data)
+                     usersRef.child(decodedToken.uid).child('like_news').set(wrap)
                    successResponse(res, 'Post comment successfully.', res_data)
                   res_data['post_news']=wrap
                   return decodedToken.user_id
@@ -221,11 +229,14 @@ router.post('/:id/rating', function (req, res, next) {
                             let eachNews = doc.val()
                             var xs=eachNews[Object.keys(eachNews)]
                             xs['id'] = Object.keys(eachNews)
-                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName:':snapshot.val().displayName}
+                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
                              wrap.remove(xs)
                            }
                        })
                     newsCollection.child(catalog).child(newsId).child('rating').set(snap.val().rating.filter(e => e.user_id !== decodedToken.user_id))
+                    usersRef.child(decodedToken.uid).child('like_news').on('value',function(dat){
+                      usersRef.child(decodedToken.uid).child('like_news').set(dat.val().like_news.filter(ex=>ex.user_id!==decodedToken.user_id))
+                    })
                     successResponse(res, 'delete rating successfully.', res_data)
                     return
                   } else {
@@ -247,7 +258,7 @@ router.post('/:id/rating', function (req, res, next) {
                             let eachNews = doc.val()
                             var xs=eachNews[Object.keys(eachNews)]
                             xs['id'] = Object.keys(eachNews)
-                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName:':snapshot.val().displayName}
+                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
                              wrap.push(xs)
                            }
                        })
@@ -259,6 +270,7 @@ router.post('/:id/rating', function (req, res, next) {
                        .child('rating')
                        .child(num_length)
                        .set(res_data)
+                       usersRef.child(decodedToken.uid).child('like_news').set(wrap)
                     successResponse(res, 'Post comment successfully.', res_data)
                     return decodedToken.user_id
                   }
@@ -305,7 +317,7 @@ router.post('/addnews', function (req, res, next) {
               let eachNews = doc.val()
               var xs=eachNews[Object.keys(eachNews)]
               xs['id'] = Object.keys(eachNews)
-              xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName:':snapshot.val().displayName}
+              xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
               wrap.push(xs)
               }
             })
