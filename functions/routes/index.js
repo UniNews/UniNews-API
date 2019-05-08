@@ -179,43 +179,33 @@ router.post('/:id/rating', function (req, res, next) {
         catalogs.forEach(function (catalog) {
           var query = newsCollection.child(catalog).child(newsId)
             .once("value",
-              async function (snap) {
+              function (snap) {
                 console.log(snap.val())
                 if (snap.val() == null) {
                   console.log("No such document!")
                 }
                 else if (snap.val().rating == null) {
-                  var wrap=[]
-                  var news =await newsCollection
-                  .orderByChild('timeStamp').on("value", function (snap) {
-                   snap.forEach(doc => {
-                    newsCollection
+                  newsCollection
                     .child(catalog)
                     .child(newsId)
                     .child('rating')
                     .child(0)
                     .set(res_data)
-                    usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
-                    if(snapshot.val().rating.includes(decodedToken.uid)){
-                          console.log(snapshot.val())
-                          let eachNews = doc.val()
-                          var xs=eachNews[Object.keys(eachNews)]
-                          xs['id'] = Object.keys(eachNews)
-                          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
-                           wrap.push(xs)
-                         }
-                     })
-                     })})
-                     res_data['like_news']=wrap
-                     newsCollection
-                     .child(catalog)
-                     .child(newsId)
-                     .child('rating')
-                     .child(0)
-                     .set(res_data)
-                     usersRef.child(decodedToken.uid).child('like_news').set(wrap)
-                   successResponse(res, 'Post comment successfully.', res_data)
-                  res_data['post_news']=wrap
+                    
+                    usersRef.child(decodedToken.uid).child('like_news').once('value',function(fish){
+                      if(fish.val()!==null){
+                      console.log('jpkjpjpjpjpjpx')
+                      console.log(fish.val())
+                      if(fish.val().includes(newsId)){
+                      }else{
+                        usersRef.child(decodedToken.uid).child('like_news').child(fish.val().length).set(newsId)
+                      }
+                      }else{
+                      console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
+                      usersRef.child(decodedToken.uid).child('like_news').child(0).set(newsId)
+                      }
+                    })
+                  successResponse(res, 'Post comment successfully.', res_data)
                   return decodedToken.user_id
                 }
                 else {
@@ -223,54 +213,34 @@ router.post('/:id/rating', function (req, res, next) {
                   console.log(snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0)
                   if (snap.val().rating.filter(e => e.user_id === decodedToken.user_id).length > 0) {
                     console.log("User already like")
-                    usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
-                      if(snapshot.val().rating.includes(decodedToken.uid)){
-                            console.log(snapshot.val())
-                            let eachNews = doc.val()
-                            var xs=eachNews[Object.keys(eachNews)]
-                            xs['id'] = Object.keys(eachNews)
-                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
-                             wrap.remove(xs)
-                           }
-                       })
                     newsCollection.child(catalog).child(newsId).child('rating').set(snap.val().rating.filter(e => e.user_id !== decodedToken.user_id))
-                    usersRef.child(decodedToken.uid).child('like_news').on('value',function(dat){
-                      usersRef.child(decodedToken.uid).child('like_news').set(dat.val().like_news.filter(ex=>ex.user_id!==decodedToken.user_id))
+                    usersRef.child(decodedToken.uid).child('like_news').once('value',function(fish){
+                    usersRef.child(decodedToken.uid).child('like_news').set(fish.val().filter(e=>e!==newsId))
                     })
                     successResponse(res, 'delete rating successfully.', res_data)
                     return
                   } else {
                     console.log(snap.val().rating.length)
-                    var wrap=[]
-                    var news =await newsCollection
-                    .orderByChild('timeStamp').on("value", function (snap) {
-                     snap.forEach(doc => {
-                      num_length=snap.val().rating.length
-                      newsCollection
+                    newsCollection
                       .child(catalog)
                       .child(newsId)
                       .child('rating')
-                      .child(num_length)
+                      .child(snap.val().rating.length)
                       .set(res_data)
-                      usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
-                      if(snapshot.val().rating.includes(decodedToken.uid)){
-                            console.log(snapshot.val())
-                            let eachNews = doc.val()
-                            var xs=eachNews[Object.keys(eachNews)]
-                            xs['id'] = Object.keys(eachNews)
-                            xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
-                             wrap.push(xs)
-                           }
-                       })
-                       })})
-                       res_data['like_news']=wrap
-                       newsCollection
-                       .child(catalog)
-                       .child(newsId)
-                       .child('rating')
-                       .child(num_length)
-                       .set(res_data)
-                       usersRef.child(decodedToken.uid).child('like_news').set(wrap)
+                      usersRef.child(decodedToken.uid).child('like_news').once('value', function(fish){
+                        if(fish.val()!==null){
+                        console.log('jpkjpjpjpjpjpx')
+                        console.log(fish.val())
+                        if(fish.val().includes(newsId)){
+
+                        }else{
+                          usersRef.child(decodedToken.uid).child('like_news').child(fish.val().length).set(newsId)
+                        }
+                        }else{
+                        console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
+                        usersRef.child(decodedToken.uid).child('like_news').child(0).set(newsId)
+                        }
+                      })
                     successResponse(res, 'Post comment successfully.', res_data)
                     return decodedToken.user_id
                   }
