@@ -22,9 +22,13 @@ router.get('/', function (req, res, next) {
     var news =  newsCollection
       .orderByChild('timeStamp').on("value",async function (snap) {
         snap.forEach(doc => {
+          console.log('paul')
+          console.log(doc.val()[Object.keys(doc.val())[0]].user_id)
           usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
           let eachNews = doc.val()
-          var xs=eachNews[Object.keys(eachNews)]
+          console.log('ssp')
+          console.log(eachNews)
+          var xs=eachNews
           xs['id'] = Object.keys(eachNews)[0]
           xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(xs)
@@ -101,6 +105,11 @@ router.get('/:id', function (req, res, next) {
             }
             else{
               console.log('no comments')
+              successResponse(
+                res,
+                'Get news by specific id successfully.',
+                sk
+              )
             }
           } else {
             console.log('not found')
@@ -265,10 +274,10 @@ router.post('/addnews', function (req, res, next) {
     var res_data = {}
     admin.auth()
       .verifyIdToken(user_token)
-      .then(function (decodedToken) {
-        usersRef.child(decodedToken.uid).once("value",async function(snap){
+      .then(async function (decodedToken) {
+        
         var timeStamp = new Date()
-        res_data['author'] = decodedToken.uid
+        res_data['user_id'] = decodedToken.uid
         res_data['catalog'] = catalog
         res_data['description'] = description
         res_data['imgs'] = imgs
@@ -279,23 +288,44 @@ router.post('/addnews', function (req, res, next) {
         res_data['rating'] = []
         var wrap=[]
         var news =await newsCollection
-          .orderByChild('timeStamp').on("value", function (snap) {
+          .orderByChild('timeStamp').once("value", function (snap) {
             snap.forEach(doc => {
+              console.log('sdasdasd')
+              console.log(doc.val())
+              if(doc.val()!==null){
+              console.log(doc.val()[Object.keys(doc.val())[0]].user_id)
               usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
               if(decodedToken.uid===snapshot.val().user_id){
               console.log(snapshot.val())
               let eachNews = doc.val()
-              var xs=eachNews[Object.keys(eachNews)]
+              var xs=eachNews
               xs['id'] = Object.keys(eachNews)
               xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
               wrap.push(xs)
               }
+            })}
             })
-            })})
-        res_data['post_news']=wrap
-        newsCollection.child(catalog).child(uuid.v4()).set(res_data)
-        successResponse(res, 'Post comment successfully.', res_data)
+          })
+        var newsId=uuid.v4()
+        console.log(newsId)
+        newsCollection.child(catalog).child(newsId).set(res_data)
+       
+        usersRef.child(decodedToken.uid).child('post_news').once('value',function(fish){
+          console.log('ssssss')
+          console.log(fish)
+          console.log(fish.val())
+          console.log(decodedToken.uid)
+          if(fish.val()!==null){
+            console.log('jpkjpjpjpjpjpx')
+            console.log(fish.val())
+            usersRef.child(decodedToken.uid).child('post_news').child(fish.val().length).set(newsId)
+            }else{
+            console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
+            usersRef.child(decodedToken.uid).child('post_news').child(0).set(newsId)
+            }
         })
+        successResponse(res, 'Post comment successfully.', res_data)
+        
       }).catch(err => {
         console.log(err)
       })
