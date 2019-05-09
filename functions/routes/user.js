@@ -5,6 +5,7 @@ const {  cors ,firebaseDB,admin  } = require('./../config/admin.js')
 
 var database = firebaseDB
 var usersRef = database.ref('user');
+var newsRef =database.ref('news')
 
 const {
   notFoundErrorResponse,
@@ -16,15 +17,19 @@ router.post('/profile',function (req, res, next) {
       let user_token = req.body.user_token
       let displayName = req.body.displayName
       let aboutMe = req.body.aboutMe
+      let img=req.body.img
       data = {}
       admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
       usersRef.child(decodedToken.uid).on("value", function (snap)
       {
+        data['permission']=snap.val().permission
         data['displayName'] = displayName
         data['img']=img
         data['aboutMe']=aboutMe
+        data['user_id']=snap.val().user_id
+        usersRef.child(decodedToken.uid).set(data)
        successResponse(res, 'Update profile successfully', data)
      })
     })
@@ -34,9 +39,68 @@ router.get('/:id',function (req, res, next) {
     cors(req, res, () => {
         let id = req.params.id
         data = {}
+        var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
         usersRef.child(id).on("value", function (snap)
         {
          data=snap.val()
+         data['like_news']=[]
+         data['post_news']=[]
+         data['follower']=[]
+         data['following']=[]
+         if(snap.val().like_news!==null){
+           catalogs.forEach(e=>{
+           snap.val().like_news.forEach(element => {
+             newsRef.child(e).child(element).on('value',function(sd){
+                xd={}
+                xd['title']=sd.val().title
+                xd['imgs']=sd.val().imgs
+                xd['news_id']=snap.key
+                xd['author']=snap.val().user_id
+                data['like_news'].push(xd)
+             })
+           });
+            } )
+         }
+         if(snap.val().post_news!==null){
+          catalogs.forEach(e=>{
+          snap.val().post_news.forEach(element => {
+            newsRef.child(e).child(element).on('value',function(sd){
+              xd={}
+              xd['title']=sd.val().title
+              xd['imgs']=sd.val().imgs
+              xd['news_id']=snap.key
+              xd['author']=snap.val().user_id
+              data['post_news'].push(xd)
+            })
+            
+          });
+           } )
+        }
+        if(snap.val().follower!==null){
+          snap.val().follower.forEach(element=>{
+            usersRef.child(element).on('value',function(sd){
+              xd={}
+              xd['user_id']=sd.val().user_id
+              xd['img']=sd.val().img
+              xd['displayName']=sd.val().displayName
+              xd['aboutMe']=sd.val().aboutMe
+              data['follower'].push(xd)
+            })
+          })
+        }
+        if(snap.val().following!==null){
+          snap.val().following.forEach(element=>{
+            usersRef.child(element).on('value',function(sd){
+              xd={}
+              xd['user_id']=sd.val().user_id
+              xd['img']=sd.val().img
+              xd['displayName']=sd.val().displayName
+              xd['aboutMe']=sd.val().aboutMe
+              data['following'].push(xd)
+            })
+          })
+        }
+
          successResponse(res, 'Get all news successfully.', data)
        })
         
