@@ -28,10 +28,13 @@ router.get('/', function (req, res, next) {
           let eachNews = doc.val()
           console.log('ssp')
           console.log(eachNews)
-          var xs=eachNews[Object.keys(eachNews)[0]]
-          xs['id'] = Object.keys(eachNews)[0]
+          console.log('jjjjjjjjj')
+          Object.keys(eachNews).forEach(e=>{
+          var xs=eachNews[e]
+          xs['id'] = e
           xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(xs)
+          })
         })
         })
 

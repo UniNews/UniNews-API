@@ -93,6 +93,7 @@ router.get('/:id',function (req, res, next) {
            } )
         }
         if(snap.val().follower!== undefined){
+          data['follower_detail']=[]
           snap.val().follower.forEach(element=>{
             usersRef.child(element).on('value',function(sd){
               xd={}
@@ -100,11 +101,12 @@ router.get('/:id',function (req, res, next) {
               xd['img']=sd.val().imgs
               xd['displayName']=sd.val().displayName
               xd['aboutMe']=sd.val().aboutMe
-              data['follower'].push(xd)
+              data['follower_detail'].push(xd)
             })
           })
         }
         if(snap.val().following!== undefined){
+          data['following_detail']=[]
           snap.val().following.forEach(element=>{
             usersRef.child(element).on('value',function(sd){
               xd={}
@@ -112,7 +114,7 @@ router.get('/:id',function (req, res, next) {
               xd['img']=sd.val().img
               xd['displayName']=sd.val().displayName
               xd['aboutMe']=sd.val().aboutMe
-              data['following'].push(xd)
+              data['following_detail'].push(xd)
             })
           })
         }
@@ -130,9 +132,9 @@ router.post('/following',function(req, res, next){
       admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
-        usersRef.child(decodedToken.uid).on("value", function (snap)
+        usersRef.child(decodedToken.uid).once("value", function (snap)
         {
-          usersRef.child(user_id).on("value", function (sd){
+          usersRef.child(user_id).once("value", function (sd){
           if (snap.val()==null || sd.val() == null) {
             console.log(snap.val())
             console.log(sd.val())
@@ -144,10 +146,12 @@ router.post('/following',function(req, res, next){
          usersRef.child(user_id).child('follower').child(0).set(decodedToken.uid)
          data['following']=decodedToken.uid
          data['follower']=user_id
+         console.log('dsdsdsdsdsdsdsdsd')
+         console.log(user_id)
          successResponse(res, 'Get all news successfully.', data)
          }else if(snap.val().following == null){
           usersRef.child(decodedToken.uid).child('following').child(0).set(user_id)
-          usersRef.child(user_id).child('follower').child(snap.val().following.length).set(decodedToken.uid)
+          usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
           data['following']=decodedToken.uid
           data['follower']=user_id
           successResponse(res, 'Get all news successfully.', data)
@@ -159,11 +163,19 @@ router.post('/following',function(req, res, next){
           successResponse(res, 'Get all news successfully.', data)
          }
          else{
+           if(snap.val().following.includes(user_id)&&sd.val().follower.includes(decodedToken.uid)){
+            data['Following']=decodedToken.uid
+            data['Follower']=user_id
+            usersRef.child(decodedToken.uid).child('following').set(snap.val().following.filter(e=>e!=user_id))
+            usersRef.child(user_id).child('follower').set(sd.val().follower.filter(e=>e!=decodedToken.uid))
+            successResponse(res, 'unfollow', data)
+           }else{
           usersRef.child(decodedToken.uid).child('following').child(snap.val().following.length).set(user_id)
-          usersRef.child(user_id).child('follower').child(snap.val().following.length).set(decodedToken.uid)
+          usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
          data['Following']=decodedToken.uid
          data['Follower']=user_id
          successResponse(res, 'Get all news successfully.', data)
+           }
          }
         })
        })
