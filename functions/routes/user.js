@@ -98,7 +98,7 @@ router.get('/:id',function (req, res, next) {
             usersRef.child(element).on('value',function(sd){
               xd={}
               xd['user_id']=sd.val().user_id
-              xd['img']=sd.val().imgs
+              xd['img']=sd.val().img
               xd['displayName']=sd.val().displayName
               xd['aboutMe']=sd.val().aboutMe
               data['follower_detail'].push(xd)
