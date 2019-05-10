@@ -18,20 +18,17 @@ router.post('/profile',function (req, res, next) {
       let displayName = req.body.displayName
       let aboutMe = req.body.aboutMe
       let img=req.body.img
-      data = {}
+      data = ''
       admin.auth()
       .verifyIdToken(user_token)
       .then(function (decodedToken) {
-      usersRef.child(decodedToken.uid).on("value", function (snap)
-      {
-        data['permission']=snap.val().permission
-        data['displayName'] = displayName
-        data['img']=img
-        data['aboutMe']=aboutMe
-        data['user_id']=snap.val().user_id
-        usersRef.child(decodedToken.uid).set(data)
+        data='change profile'
+        usersRef.child(decodedToken.uid).update({
+          'displayName': displayName,
+          'img':img,
+          'aboutMe':aboutMe
+        });
        successResponse(res, 'Update profile successfully', data)
-     })
     })
   })
 })
@@ -42,53 +39,72 @@ router.get('/:id',function (req, res, next) {
         var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
         usersRef.child(id).on("value", function (snap)
         {
+          console.log('1111111')
+          console.log(id)
+          console.log(snap.val())
          data=snap.val()
-         data['like_news']=[]
-         data['post_news']=[]
-         data['follower']=[]
-         data['following']=[]
-         if(snap.val().like_news!==null){
+         if(snap.val().like_news !== undefined){
+          console.log('2222222')
+          console.log(snap.val().like_news)
+          data['like_detail']=[]
            catalogs.forEach(e=>{
            snap.val().like_news.forEach(element => {
              newsRef.child(e).child(element).on('value',function(sd){
+              console.log('33333333')
+              if(sd.val()!==null){
+              console.log(sd.val())
                 xd={}
                 xd['title']=sd.val().title
                 xd['imgs']=sd.val().imgs
-                xd['news_id']=snap.key
-                xd['author']=snap.val().user_id
-                data['like_news'].push(xd)
+                xd['news_id']=sd.key
+                if(snap.val().user_id!== undefined){
+                usersRef.child(sd.val().user_id).on('value',(snack)=>{
+                  xd['author']=snack.val().displayName
+                })
+                data['like_detail'].push(xd)
+              }
+              }
              })
            });
             } )
          }
-         if(snap.val().post_news!==null){
+         if(snap.val().post_news !== undefined){
+          data['post_detail']=[]
           catalogs.forEach(e=>{
           snap.val().post_news.forEach(element => {
+            
             newsRef.child(e).child(element).on('value',function(sd){
+              console.log('44444444')
+              if(sd.val()!==null){
+              console.log(sd.val())
               xd={}
               xd['title']=sd.val().title
               xd['imgs']=sd.val().imgs
-              xd['news_id']=snap.key
-              xd['author']=snap.val().user_id
-              data['post_news'].push(xd)
+              xd['news_id']=sd.key
+              if(snap.val().user_id!== undefined){
+              usersRef.child(snap.val().user_id).on('value',(snack)=>{
+                xd['author']=snack.val().displayName
+              })
+              data['post_detail'].push(xd)
+              }
+              }
             })
-            
           });
            } )
         }
-        if(snap.val().follower!==null){
+        if(snap.val().follower!== undefined){
           snap.val().follower.forEach(element=>{
             usersRef.child(element).on('value',function(sd){
               xd={}
               xd['user_id']=sd.val().user_id
-              xd['img']=sd.val().img
+              xd['img']=sd.val().imgs
               xd['displayName']=sd.val().displayName
               xd['aboutMe']=sd.val().aboutMe
               data['follower'].push(xd)
             })
           })
         }
-        if(snap.val().following!==null){
+        if(snap.val().following!== undefined){
           snap.val().following.forEach(element=>{
             usersRef.child(element).on('value',function(sd){
               xd={}
@@ -100,7 +116,7 @@ router.get('/:id',function (req, res, next) {
             })
           })
         }
-
+        console.log('55555555')
          successResponse(res, 'Get all news successfully.', data)
        })
         

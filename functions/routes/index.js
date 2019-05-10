@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
           let eachNews = doc.val()
           console.log('ssp')
           console.log(eachNews)
-          var xs=eachNews
+          var xs=eachNews[Object.keys(eachNews)[0]]
           xs['id'] = Object.keys(eachNews)[0]
           xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(xs)
@@ -43,12 +43,12 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/campus/:campus', function (req, res, next) {
-  cors(req, res, async() => {
+  cors(req, res, () => {
     var res_data = []
     let campus = req.params.campus
-    var news = await newsCollection
+    var news =  newsCollection
       .child(campus)
-      .orderByChild('timeStamp').on("value",async function (snap) {
+      .orderByChild('timeStamp').on("value", function (snap) {
           snap.forEach(doc => {
           console.log('paul')
           console.log(doc.val())
@@ -57,6 +57,7 @@ router.get('/campus/:campus', function (req, res, next) {
           console.log('paul')
           let eachNews = doc.val()
           eachNews['id'] = doc.key
+          eachNews['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(eachNews)
           console.log('dddd')
           console.log(res_data)
@@ -83,6 +84,9 @@ router.get('/:id', function (req, res, next) {
         .on("value", async function (snap) {
           if (snap.val() !== null) {
             sk = snap.val()
+            usersRef.child(snap.val().user_id).on("value",function(snapshot){
+            sk['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
+            })
             console.log(sk.comments)
             if(sk.comments){
             for (const e of sk.comments) {
