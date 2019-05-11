@@ -238,7 +238,7 @@ for (var i = 0; i < news.length; i++) {
   var timeStamp = new Date()
   news[i].timeStamp =
     '' +
-    timeStamp.getDay() +
+    timeStamp.getDate() +
     '/' +
     (timeStamp.getMonth() + 1) +
     '/' +

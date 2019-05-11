@@ -294,7 +294,7 @@ router.post('/addnews', function (req, res, next) {
         res_data['catalog'] = catalog
         res_data['description'] = description
         res_data['imgs'] = imgs
-        res_data['timeStamp'] = ''+timeStamp.getDay()+'/'+(timeStamp.getMonth()+1)+'/'+timeStamp.getFullYear()+'  time '+timeStamp.getHours()+':'+timeStamp.getMinutes() // store a timestamp as a field in the documents.
+        res_data['timeStamp'] = ''+timeStamp.getDate()+'/'+(timeStamp.getMonth()+1)+'/'+timeStamp.getFullYear()+'  time '+timeStamp.getHours()+':'+timeStamp.getMinutes() // store a timestamp as a field in the documents.
         res_data['title'] = title
         res_data['tag'] = tag
         res_data['comments'] = []
