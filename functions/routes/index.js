@@ -32,12 +32,17 @@ router.get('/', function (req, res, next) {
           Object.keys(eachNews).forEach(e=>{
           var xs=eachNews[e]
           xs['id'] = e
-          xs['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
+          console.log(xs.user_id)
+          usersRef.child(eachNews[e].user_id).on('value',function(d){
+            console.log('jjjjjjjjjkkkkk')
+            console.log(d.val())
+            xs['author']={'user_id':eachNews[e].user_id,'img':d.val().img,'displayName':d.val().displayName}
+          })
           res_data.push(xs)
           })
         })
         })
-
+        res_data.reverse()
         console.log('ssssssssss')
         console.log(res_data)
         successResponse(res, 'Get all news successfully.', res_data)
@@ -67,6 +72,7 @@ router.get('/campus/:campus', function (req, res, next) {
           })
         })
       })
+      res_data.reverse()
       console.log('ssssssssss')
       console.log(res_data)
       successResponse(res, 'Get all news successfully.', res_data)
