@@ -9,11 +9,11 @@ const news = [
     imgs: 'https://scontent.fbkk2-7.fna.fbcdn.net/v/t1.0-9/57649192_2161201780630679_4198258870310666240_o.jpg?_nc_cat=106&_nc_ht=scontent.fbkk2-7.fna&oh=401ab1d4002de2161709e61536b7b475&oe=5D5A24F8',
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'},
+      { user_id: '60jvk3n8tsfENnFw6EuZ72XufO52'}
     ],
-    comments: [{ user_id:'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Kub' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id:'60jvk3n8tsfENnFw6EuZ72XufO52', msg: 'Kub' }],
+    user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2',
     tag:['Muscle','KUSEXYBOY'],
     catalog:'Love',
   },
@@ -23,11 +23,11 @@ const news = [
     imgs: 'https://scontent.fbkk2-7.fna.fbcdn.net/v/t1.0-9/59823521_2334865819928401_1875872579080683520_o.jpg?_nc_cat=109&_nc_ht=scontent.fbkk2-7.fna&oh=4e81f002ffb220ee36b83c777db76223&oe=5D5AACD6',
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'},
+      { user_id: '60jvk3n8tsfENnFw6EuZ72XufO52'}
     ],
-    comments: [{ user_id:'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Kub' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id:'60jvk3n8tsfENnFw6EuZ72XufO52', msg: 'Kub' }],
+    user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2',
     tag:['Muscle','KUSEXYBOY'],
     catalog:'Love',
   },
@@ -37,11 +37,11 @@ const news = [
     imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/59928256_2334630223285294_7143018792115765248_o.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=a59f2d7ddc9bb8e53df65572b70a5c74&oe=5D6DBEBA',
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'},
+      { user_id: '60jvk3n8tsfENnFw6EuZ72XufO52'}
     ],
-    comments: [{ user_id:'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Kub' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id:'60jvk3n8tsfENnFw6EuZ72XufO52', msg: 'Kub' }],
+    user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2',
     tag:['Muscle','KUSEXYBOY'],
     catalog:'Love',
   },
@@ -52,11 +52,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Job'],
     catalog:'Official News',
   },
@@ -67,11 +67,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Job'],
     catalog:'Learning',
   },
@@ -82,11 +82,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Job'],
     catalog:'Social',
   }, {
@@ -96,11 +96,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Place'],
     catalog:'Accommodation',
   },{
@@ -110,11 +110,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Place'],
     catalog:'Accommodation',
   },{
@@ -124,11 +124,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Place','CalGuLess'],
     catalog:'Accommodation',
   }, {
@@ -138,11 +138,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Health','กิน70ออกกำลังกาย30'],
     catalog:'Restaurants',
   }, {
@@ -152,11 +152,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Health','ชุมชนคนหมื่นแคล','เผาผลาญมันเกิน'],
     catalog:'Restaurants',
   },{
@@ -166,11 +166,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['CalGuLess'],
     catalog:'Restaurants',
   },
@@ -181,11 +181,11 @@ const news = [
     ,
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Hi' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Tutor'],
     catalog:'Learning',
   },
@@ -195,11 +195,11 @@ const news = [
     imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/55503378_1243562959126681_5093210860864667648_o.jpg?_nc_cat=100&_nc_ht=scontent.fbkk2-8.fna&oh=4254a700da68dd548a24545f422110c9&oe=5D3D6652',
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id:'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Kub' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Tutor'],
     catalog:'Learning',
   },
@@ -209,11 +209,11 @@ const news = [
     imgs: 'https://scontent.fbkk2-8.fna.fbcdn.net/v/t1.0-9/59602897_2175442195873304_3397012066744139776_o.jpg?_nc_cat=105&_nc_ht=scontent.fbkk2-8.fna&oh=58bf4bfdfb049a83a4073bdf41d2c836&oe=5D63525E',
     timeStamp: null,
     rating: [
-      { user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2'},
-      { user_id: 'LGqPchRYJabjbEo34fOIF5IUxFk1'}
+      { user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2'},
+      { user_id: '56Gm7f99vcT9FKnoy36nt96k9Zx2'}
     ],
-    comments: [{ user_id:'LGqPchRYJabjbEo34fOIF5IUxFk1', msg: 'Kub' }],
-    user_id: '6okut6RLxCYUYXEKZIjW7c2NTsC2',
+    comments: [{ user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2', msg: 'Hi' }],
+    user_id: 'AnCOST2RYqbhIxe1OENHRknAJcg2',
     tag:['Tutor','Sport'],
     catalog:'Learning',
   }
