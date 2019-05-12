@@ -72,7 +72,6 @@ router.get('/campus/:campus', function (req, res, next) {
           })
         })
       })
-      res_data.reverse()
       console.log('ssssssssss')
       console.log(res_data)
       successResponse(res, 'Get all news successfully.', res_data)

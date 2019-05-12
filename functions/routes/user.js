@@ -118,6 +118,10 @@ router.get('/:id',function (req, res, next) {
             })
           })
         }
+        if(data.post_detail!==undefined && data.like_detail!==undefined){
+        data.post_detail.reverse()
+        data.like_detail.reverse()
+        }
         console.log('55555555')
          successResponse(res, 'Get all news successfully.', data)
        })
