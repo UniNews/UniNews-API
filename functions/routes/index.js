@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
   cors(req, res, () => {
     var res_data = []
     var news =  newsCollection
-      .orderByChild('timeStamp').on("value",async function (snap) {
+      .orderByChild('timeStamp').once("value",async function (snap) {
         snap.forEach(doc => {
           console.log('paul')
           console.log(doc.val()[Object.keys(doc.val())[0]].user_id)
@@ -56,7 +56,7 @@ router.get('/campus/:campus', function (req, res, next) {
     let campus = req.params.campus
     var news =  newsCollection
       .child(campus)
-      .orderByChild('timeStamp').on("value", function (snap) {
+      .orderByChild('timeStamp').once("value", function (snap) {
           snap.forEach(doc => {
           console.log('paul')
           console.log(doc.val())
@@ -90,7 +90,7 @@ router.get('/:id', function (req, res, next) {
       var news = newsCollection
         .child(catalog)
         .child(id)
-        .on("value", async function (snap) {
+        .once("value", async function (snap) {
           if (snap.val() !== null) {
             sk = snap.val()
             usersRef.child(snap.val().user_id).on("value",function(snapshot){
