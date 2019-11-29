@@ -1,6 +1,5 @@
 const uuid =require('uuid')
 var express = require('express')
-const {forEach} =require('p-iteration')
 var router = express.Router()
 
 const { firebaseDB, cors, admin } = require('./../config/admin.js')
@@ -22,20 +21,12 @@ router.get('/', function (req, res, next) {
     var news =  newsCollection
       .orderByChild('timeStamp').once("value",async function (snap) {
         snap.forEach(doc => {
-          console.log('paul')
-          console.log(doc.val()[Object.keys(doc.val())[0]].user_id)
           usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
           let eachNews = doc.val()
-          console.log('ssp')
-          console.log(eachNews)
-          console.log('jjjjjjjjj')
           Object.keys(eachNews).forEach(e=>{
           var xs=eachNews[e]
           xs['id'] = e
-          console.log(xs.user_id)
           usersRef.child(eachNews[e].user_id).on('value',function(d){
-            console.log('jjjjjjjjjkkkkk')
-            console.log(d.val())
             xs['author']={'user_id':eachNews[e].user_id,'img':d.val().img,'displayName':d.val().displayName}
           })
           res_data.push(xs)
@@ -43,8 +34,6 @@ router.get('/', function (req, res, next) {
         })
         })
         res_data.reverse()
-        console.log('ssssssssss')
-        console.log(res_data)
         successResponse(res, 'Get all news successfully.', res_data)
       })
   })
@@ -58,23 +47,15 @@ router.get('/campus/:campus', function (req, res, next) {
       .child(campus)
       .orderByChild('timeStamp').once("value", function (snap) {
           snap.forEach(doc => {
-          console.log('paul')
-          console.log(doc.val())
           usersRef.child(doc.val().user_id).on("value",function(snapshot){
-          console.log(snapshot.val())
-          console.log('paul')
           let eachNews = doc.val()
           eachNews['id'] = doc.key
           eachNews['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
           res_data.push(eachNews)
-          console.log('dddd')
-          console.log(res_data)
           })
         })
       })
       res_data.reverse()
-      console.log('ssssssssss')
-      console.log(res_data)
       successResponse(res, 'Get all news successfully.', res_data)
   })
 })
@@ -96,20 +77,14 @@ router.get('/:id', function (req, res, next) {
             usersRef.child(snap.val().user_id).on("value",function(snapshot){
             sk['author']={'user_id':snapshot.val().user_id,'img':snapshot.val().img,'displayName':snapshot.val().displayName}
             })
-            console.log(sk.comments)
             if(sk.comments){
             for (const e of sk.comments) {
               var user = await usersRef.child(e.user_id).once("value", function (sd) {
-                console.log(sd.val())
-                console.log("sssssss")
                 e['displayName'] = sd.val().displayName
                 e['img'] = sd.val().img
-                console.log('ssdsdsdsdsdsds')
-                console.log(e)
               })
             }
             sk.comments.reverse()
-            console.log(sk)
             successResponse(
               res,
               'Get news by specific id successfully.',
@@ -117,7 +92,6 @@ router.get('/:id', function (req, res, next) {
             )
             }
             else{
-              console.log('no comments')
               successResponse(
                 res,
                 'Get news by specific id successfully.',
@@ -125,10 +99,9 @@ router.get('/:id', function (req, res, next) {
               )
             }
           } else {
-            console.log('not found')
+            notFoundErrorResponse(res,"not found")
           }
         })
-
     })
   })
 })
@@ -155,7 +128,6 @@ router.post('/:id/comments', function (req, res, next) {
                 }
                 else if (snap.val().comments == null) {
                     usersRef.child(decodedToken.user_id).once("value",function(snapshot){
-                      console.log(snapshot.val().displayName)
                       res_data['displayName']=snapshot.val().displayName
                       newsCollection
                     .child(catalog)
@@ -168,7 +140,6 @@ router.post('/:id/comments', function (req, res, next) {
                     })
                 }
                 else {
-                  console.log(snap.val().comments.length)
                   usersRef.child(decodedToken.user_id).once("value",function(snapshot){
                     res_data['displayName']=snapshot.val().displayName
                   newsCollection
@@ -223,8 +194,7 @@ router.post('/:id/rating', function (req, res, next) {
                         usersRef.child(decodedToken.uid).child('like_news').child(fish.val().length).set(newsId)
                       }
                       }else{
-                      console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
-                      usersRef.child(decodedToken.uid).child('like_news').child(0).set(newsId)
+                        usersRef.child(decodedToken.uid).child('like_news').child(0).set(newsId)
                       }
                     })
                   successResponse(res, 'Post comment successfully.', res_data)
@@ -251,15 +221,12 @@ router.post('/:id/rating', function (req, res, next) {
                       .set(res_data)
                       usersRef.child(decodedToken.uid).child('like_news').once('value', function(fish){
                         if(fish.val()!==null){
-                        console.log('jpkjpjpjpjpjpx')
-                        console.log(fish.val())
                         if(fish.val().includes(newsId)){
 
                         }else{
                           usersRef.child(decodedToken.uid).child('like_news').child(fish.val().length).set(newsId)
                         }
                         }else{
-                        console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
                         usersRef.child(decodedToken.uid).child('like_news').child(0).set(newsId)
                         }
                       })
@@ -270,7 +237,7 @@ router.post('/:id/rating', function (req, res, next) {
               })
         })
       }).catch(err => {
-        console.log(err)
+        notFoundErrorResponse(res,err)
       })
   })
 })
@@ -288,7 +255,6 @@ router.post('/addnews', function (req, res, next) {
     admin.auth()
       .verifyIdToken(user_token)
       .then(async function (decodedToken) {
-        
         var timeStamp = new Date()
         res_data['user_id'] = decodedToken.uid
         res_data['catalog'] = catalog
@@ -303,13 +269,9 @@ router.post('/addnews', function (req, res, next) {
         var news =await newsCollection
           .orderByChild('timeStamp').once("value", function (snap) {
             snap.forEach(doc => {
-              console.log('sdasdasd')
-              console.log(doc.val())
               if(doc.val()!==null){
-              console.log(doc.val()[Object.keys(doc.val())[0]].user_id)
               usersRef.child(doc.val()[Object.keys(doc.val())[0]].user_id).on("value",function(snapshot){
               if(decodedToken.uid===snapshot.val().user_id){
-              console.log(snapshot.val())
               let eachNews = doc.val()
               var xs=eachNews
               xs['id'] = Object.keys(eachNews)
@@ -320,27 +282,17 @@ router.post('/addnews', function (req, res, next) {
             })
           })
         var newsId=uuid.v4()
-        console.log(newsId)
         newsCollection.child(catalog).child(newsId).set(res_data)
-       
         usersRef.child(decodedToken.uid).child('post_news').once('value',function(fish){
-          console.log('ssssss')
-          console.log(fish)
-          console.log(fish.val())
-          console.log(decodedToken.uid)
           if(fish.val()!==null){
-            console.log('jpkjpjpjpjpjpx')
-            console.log(fish.val())
             usersRef.child(decodedToken.uid).child('post_news').child(fish.val().length).set(newsId)
             }else{
-            console.log('sdasdasdasdasdasdasdasdasdasdsadasdsadas')
             usersRef.child(decodedToken.uid).child('post_news').child(0).set(newsId)
             }
         })
         successResponse(res, 'Post comment successfully.', res_data)
-        
       }).catch(err => {
-        console.log(err)
+        notFoundErrorResponse(res,err)
       })
   })
 })

@@ -28,7 +28,7 @@ router.post('/profile',function (req, res, next) {
           'img':img,
           'aboutMe':aboutMe
         });
-       successResponse(res, 'Update profile successfully', data)
+      successResponse(res, 'Update profile successfully', data)
     })
   })
 })
@@ -39,44 +39,34 @@ router.get('/:id',function (req, res, next) {
         var catalogs = ['Restaurants', 'Accommodation', 'Official News', 'Social', 'Learning', 'Love']
         usersRef.child(id).on("value", function (snap)
         {
-          console.log('1111111')
-          console.log(id)
-          console.log(snap.val())
-         data=snap.val()
-         if(snap.val().like_news !== undefined){
-          console.log('2222222')
-          console.log(snap.val().like_news)
-          data['like_detail']=[]
-           catalogs.forEach(e=>{
-           snap.val().like_news.forEach(element => {
-             newsRef.child(e).child(element).on('value',function(sd){
-              console.log('33333333')
+          data=snap.val()
+          if(snap.val().like_news !== undefined){
+            data['like_detail']=[]
+            catalogs.forEach(e=>{
+            snap.val().like_news.forEach(element => {
+              newsRef.child(e).child(element).on('value',function(sd){
               if(sd.val()!==null){
-              console.log(sd.val())
                 xd={}
                 xd['title']=sd.val().title
                 xd['imgs']=sd.val().imgs
                 xd['news_id']=sd.key
                 if(snap.val().user_id!== undefined){
-                usersRef.child(sd.val().user_id).on('value',(snack)=>{
-                  xd['author']=snack.val().displayName
-                })
-                data['like_detail'].push(xd)
+                  usersRef.child(sd.val().user_id).on('value',(snack)=>{
+                    xd['author']=snack.val().displayName
+                  })
+                  data['like_detail'].push(xd)
+                }
               }
-              }
-             })
-           });
-            } )
-         }
-         if(snap.val().post_news !== undefined){
+              })
+              });
+            })
+          }
+        if(snap.val().post_news !== undefined){
           data['post_detail']=[]
           catalogs.forEach(e=>{
           snap.val().post_news.forEach(element => {
-            
-            newsRef.child(e).child(element).on('value',function(sd){
-              console.log('44444444')
-              if(sd.val()!==null){
-              console.log(sd.val())
+          newsRef.child(e).child(element).on('value',function(sd){
+            if(sd.val()!==null){
               xd={}
               xd['title']=sd.val().title
               xd['imgs']=sd.val().imgs
@@ -85,12 +75,12 @@ router.get('/:id',function (req, res, next) {
               usersRef.child(snap.val().user_id).on('value',(snack)=>{
                 xd['author']=snack.val().displayName
               })
-              data['post_detail'].push(xd)
+                data['post_detail'].push(xd)
               }
-              }
+            }
             })
           });
-           } )
+          })
         }
         if(snap.val().follower!== undefined){
           data['follower_detail']=[]
@@ -119,13 +109,11 @@ router.get('/:id',function (req, res, next) {
           })
         }
         if(data.post_detail!==undefined && data.like_detail!==undefined){
-        data.post_detail.reverse()
-        data.like_detail.reverse()
+          data.post_detail.reverse()
+          data.like_detail.reverse()
         }
-        console.log('55555555')
-         successResponse(res, 'Get all news successfully.', data)
-       })
-        
+        successResponse(res, 'Get all news successfully.', data)
+      })
     })
   })
 router.post('/following',function(req, res, next){
@@ -140,49 +128,45 @@ router.post('/following',function(req, res, next){
         {
           usersRef.child(user_id).once("value", function (sd){
           if (snap.val()==null || sd.val() == null) {
-            console.log(snap.val())
-            console.log(sd.val())
-            console.log("No such document!")
-         }
-         else if(snap.val().following == null&&sd.val().follower == null)
-         {
-         usersRef.child(decodedToken.uid).child('following').child(0).set(user_id)
-         usersRef.child(user_id).child('follower').child(0).set(decodedToken.uid)
-         data['following']=decodedToken.uid
-         data['follower']=user_id
-         console.log('dsdsdsdsdsdsdsdsd')
-         console.log(user_id)
-         successResponse(res, 'Get all news successfully.', data)
-         }else if(snap.val().following == null){
-          usersRef.child(decodedToken.uid).child('following').child(0).set(user_id)
-          usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
-          data['following']=decodedToken.uid
-          data['follower']=user_id
-          successResponse(res, 'Get all news successfully.', data)
-         }else if(sd.val().follower==null){
-          usersRef.child(decodedToken.uid).child('following').child(snap.val().following.length).set(user_id)
-          usersRef.child(user_id).child('follower').child(0).set(decodedToken.uid)
-          data['following']=decodedToken.uid
-          data['follower']=user_id
-          successResponse(res, 'Get all news successfully.', data)
-         }
-         else{
-           if(snap.val().following.includes(user_id)&&sd.val().follower.includes(decodedToken.uid)){
-            data['Following']=decodedToken.uid
-            data['Follower']=user_id
-            usersRef.child(decodedToken.uid).child('following').set(snap.val().following.filter(e=>e!=user_id))
-            usersRef.child(user_id).child('follower').set(sd.val().follower.filter(e=>e!=decodedToken.uid))
-            successResponse(res, 'unfollow', data)
-           }else{
-          usersRef.child(decodedToken.uid).child('following').child(snap.val().following.length).set(user_id)
-          usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
-         data['Following']=decodedToken.uid
-         data['Follower']=user_id
-         successResponse(res, 'Get all news successfully.', data)
-           }
-         }
+            notFoundErrorResponse(res,"No such document!")
+          }
+          else if(snap.val().following == null&&sd.val().follower == null)
+          {
+            usersRef.child(decodedToken.uid).child('following').child(0).set(user_id)
+            usersRef.child(user_id).child('follower').child(0).set(decodedToken.uid)
+            data['following']=decodedToken.uid
+            data['follower']=user_id
+            successResponse(res, 'Get all news successfully.', data)
+          }else if(snap.val().following == null){
+            usersRef.child(decodedToken.uid).child('following').child(0).set(user_id)
+            usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
+            data['following']=decodedToken.uid
+            data['follower']=user_id
+            successResponse(res, 'Get all news successfully.', data)
+          }else if(sd.val().follower==null){
+            usersRef.child(decodedToken.uid).child('following').child(snap.val().following.length).set(user_id)
+            usersRef.child(user_id).child('follower').child(0).set(decodedToken.uid)
+            data['following']=decodedToken.uid
+            data['follower']=user_id
+            successResponse(res, 'Get all news successfully.', data)
+          }
+          else{
+            if(snap.val().following.includes(user_id)&&sd.val().follower.includes(decodedToken.uid)){
+              data['Following']=decodedToken.uid
+              data['Follower']=user_id
+              usersRef.child(decodedToken.uid).child('following').set(snap.val().following.filter(e=>e!=user_id))
+              usersRef.child(user_id).child('follower').set(sd.val().follower.filter(e=>e!=decodedToken.uid))
+              successResponse(res, 'unfollow', data)
+            }else{
+              usersRef.child(decodedToken.uid).child('following').child(snap.val().following.length).set(user_id)
+              usersRef.child(user_id).child('follower').child(sd.val().follower.length).set(decodedToken.uid)
+              data['Following']=decodedToken.uid
+              data['Follower']=user_id
+              successResponse(res, 'Get all news successfully.', data)
+            }
+          }
+          })
         })
-       })
       })
   })
 })
